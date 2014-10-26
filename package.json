@@ -2,14 +2,13 @@
   "name": "reportjs",
   "version": "1.0.0",
   "description": "Report Library",
-  "main": "src/library.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "karma start"
   },
-  "author": "",
+  "author": "Riad Benguella <benguella@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "traceur": "0.0.51",

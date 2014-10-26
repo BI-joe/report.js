@@ -12,6 +12,7 @@ module.exports = function(config) {
         files: [
             {pattern: 'src/**/*.es6', included: false},
             {pattern: 'test/**/*Spec.es6', included: false},
+            {pattern: 'bower_components/lodash/dist/lodash.min.js', included: false},
             'test/test-main.js'
         ],
 

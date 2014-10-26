@@ -1,0 +1,17 @@
+{
+  "name": "report.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/youknowriad/report.js",
+  "authors": [
+    "Riad Benguella <benguella@gmail.com>"
+  ],
+  "description": "Report Library",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "test"
+  ],
+  "dependencies": {
+    "lodash": "~2.4.1"
+  }
+}

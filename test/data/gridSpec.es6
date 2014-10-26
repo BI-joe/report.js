@@ -8,24 +8,46 @@ describe('Cell', function() {
         let dimension = new Dimension('d'),
             dimensionValue = new DimensionValue('dv'),
             cellDimensionValues = new Map(),
-            dimensionValuesByDimensions = new Map();
+            dimensionValuesByDimensions = new Map(),
+            dimensions = new Map();
         cellDimensionValues.set('d', dimensionValue);
         dimensionValuesByDimensions.set('d', [dimensionValue]);
+        dimensions.set('d', dimension);
         let cell = new Cell(cellDimensionValues, 10),
-            grid = new Grid([dimension], dimensionValuesByDimensions, [cell]);
+            grid = new Grid(dimensions, dimensionValuesByDimensions, [cell]);
 
         expect(grid.dimensionValues).toBe(dimensionValuesByDimensions);
-        expect(grid.dimensions).toEqual([dimension]);
+        expect(grid.dimensions).toEqual(dimensions);
         expect(grid.cells).toEqual([cell]);
     });
 
-    it('getter dimension value', function() {
+    it('getDimension', function() {
         let dimension = new Dimension('d'),
             dimensionValue = new DimensionValue('dv'),
-            dimensionValues = new Map();
-        dimensionValues.set('d', dimensionValue);
-        let cell = new Cell(dimensionValues, 10);
+            cellDimensionValues = new Map(),
+            dimensionValuesByDimensions = new Map(),
+            dimensions = new Map();
+        cellDimensionValues.set('d', dimensionValue);
+        dimensionValuesByDimensions.set('d', [dimensionValue]);
+        dimensions.set('d', dimension);
+        let cell = new Cell(cellDimensionValues, 10),
+            grid = new Grid(dimensions, dimensionValuesByDimensions, [cell]);
 
-        expect(cell.getDimensionValue(dimension)).toBe(dimensionValue);
+        expect(grid.getDimension('d')).toBe(dimension);
+    });
+
+    it('getDimensionValues', function() {
+        let dimension = new Dimension('d'),
+            dimensionValue = new DimensionValue('dv'),
+            cellDimensionValues = new Map(),
+            dimensionValuesByDimensions = new Map(),
+            dimensions = new Map();
+        cellDimensionValues.set('d', dimensionValue);
+        dimensionValuesByDimensions.set('d', [dimensionValue]);
+        dimensions.set('d', dimension);
+        let cell = new Cell(cellDimensionValues, 10),
+            grid = new Grid(dimensions, dimensionValuesByDimensions, [cell]);
+
+        expect(grid.getDimensionValues(dimension)).toEqual([dimensionValue]);
     });
 });
