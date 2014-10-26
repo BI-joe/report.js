@@ -1,6 +1,6 @@
-import {Table}     from '../output/table/table';
-import {TableRow}  from '../output/table/tableRow';
-import {TableCell} from '../output/table/tableCell';
+import {Table}     from 'output/table/table';
+import {TableRow}  from 'output/table/tableRow';
+import {TableCell} from 'output/table/tableCell';
 
 export class TableHeaderRenderer {
 
@@ -17,14 +17,19 @@ export class TableHeaderRenderer {
 
             let currentDimensionId     = _.first(dimensions),
                 currentDimension       = grid.getDimension(currentDimensionId),
-                remainingDimensions    = _.pull(dimensions, currentDimensionId),
+                remainingDimensions    = _.without(dimensions, currentDimensionId),
                 countCells             = 0,
-                currentRow             = new TableRow();
-            rows.set(currentDimensionId, currentRow);
+                currentRow;
+            if (rows.has(currentDimensionId)) {
+                currentRow = rows.get(currentDimensionId);
+            } else {
+                currentRow = new TableRow();
+                rows.set(currentDimensionId, currentRow);
+            }
             grid.getDimensionValues(currentDimension).forEach(function(dimensionValue) {
                 let subCells = _.filter(cells, function(cell) {
-                        return cell.getDimensionValue(currentDimension) === dimensionValue;
-                    });
+                    return cell.getDimensionValue(currentDimension) === dimensionValue;
+                });
                 if (subCells.length) {
                     let currentDimensionValues = _.clone(dimensionValues);
                     currentDimensionValues.set(currentDimensionId, dimensionValue);
@@ -37,10 +42,12 @@ export class TableHeaderRenderer {
                     countCells += childCellsCount;
                 }
             });
+
+            return countCells;
         };
 
         let table = new Table(),
-            rows = [];
+            rows = new Map();
         if (this.columnDimensions.length === 0) {
             table.addRow(new TableRow([ new TableCell('') ]));
         } else {
