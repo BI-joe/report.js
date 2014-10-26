@@ -1,4 +1,3 @@
-import {Table}     from 'output/table/table';
 import {TableRow}  from 'output/table/tableRow';
 import {TableCell} from 'output/table/tableCell';
 
@@ -46,17 +45,16 @@ export class TableHeaderRenderer {
             return countCells;
         };
 
-        let table = new Table(),
-            rows = new Map();
+        let rowsMap = new Map();
         if (this.columnDimensions.length === 0) {
-            table.addRow(new TableRow([ new TableCell('') ]));
+            return [new TableRow([ new TableCell('') ])];
         } else {
-            getHeaderRows(rows, this.columnDimensions, grid.cells);
-            rows.forEach(function(row) {
-                table.addRow(row);
+            getHeaderRows(rowsMap, this.columnDimensions, grid.cells);
+            let rows = [];
+            rowsMap.forEach(function(row) {
+                rows.push(row);
             });
+            return rows;
         }
-
-        return table;
     }
 }

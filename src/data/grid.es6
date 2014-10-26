@@ -21,4 +21,46 @@ export class Grid {
 
         return this.dimensionValues.get(dimension.id);
     }
+
+    getDimenionValuesSets(dimensions) {
+        let getSets = function(sets, dimensions, cells, set = new Map()) {
+                if (dimensions.length === 0) {
+                    sets.push(set);
+
+                    return;
+                }
+
+                let currentDimension     = _.first(dimensions),
+                    remainingDimensions    = _.without(dimensions, currentDimension);
+
+                this.getDimensionValues(currentDimension).forEach(function(dimensionValue) {
+                    let subCells = _.filter(cells, function(cell) {
+                        return cell.getDimensionValue(currentDimension) === dimensionValue;
+                    });
+                    if (subCells.length) {
+                        let currentSet = _.clone(set);
+                        currentSet.set(currentDimension.id, dimensionValue);
+                        getSets.call(this, sets, remainingDimensions, subCells, currentSet);
+                    }
+                }, this);
+            };
+
+        let sets = [];
+        getSets.call(this, sets, dimensions, this.cells);
+
+        return sets;
+    }
+
+    getCell(dimensionValues) {
+        return _.find(this.cells, function(cell) {
+            let found = true;
+            dimensionValues.forEach(function(dimensionValue, dimensionId) {
+                if (dimensionValue.id !== cell.getDimensionValue(this.getDimension(dimensionId)).id) {
+                    found = false;
+                }
+            }, this);
+
+            return found;
+        }, this);
+    }
 }

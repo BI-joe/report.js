@@ -5,4 +5,7 @@ export class TableCell {
         this.options = options;
     }
 
+    setOption(key, value) {
+        this.options[key] = value;
+    }
 }

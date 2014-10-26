@@ -1,9 +1,9 @@
 import {TableRow} from 'output/table/tableRow';
 import {TableCell} from 'output/table/tableCell';
 import {GridFactory} from 'data/gridFactory';
-import {TableHeaderRenderer} from 'renderer/table/tableHeaderRenderer';
+import {TableBodyRenderer} from 'renderer/table/tableBodyRenderer';
 
-describe('TableHeaderRenderer', function() {
+describe('TableBodyRenderer', function() {
     it('render', function() {
         let
             factory = new GridFactory(),
@@ -20,15 +20,16 @@ describe('TableHeaderRenderer', function() {
                 ]
             },
             grid = factory.buildFromJson(gridData),
-            renderer = new TableHeaderRenderer(['d2', 'd']);
+            renderer = new TableBodyRenderer(['d2'],['d']);
 
-        let cell = new TableCell('d21', { colspan: 1 }),
-            cell2 = new TableCell('d22', { colspan: 2 }),
-            cell3 = new TableCell('d11', { colspan: 1 }),
-            cell4 = new TableCell('d11', { colspan: 1 }),
-            cell5 = new TableCell('d12', { colspan: 1 }),
-            row = new TableRow([cell, cell2]),
-            row2 = new TableRow([cell3, cell4, cell5]),
+        let cell = new TableCell('d21', { rowspan: 1 }),
+            cell2 = new TableCell(10),
+            cell3 = new TableCell(''),
+            cell4 = new TableCell('d22', { colspan: 1 }),
+            cell5 = new TableCell(8),
+            cell6 = new TableCell(5),
+            row = new TableRow([cell, cell2, cell3]),
+            row2 = new TableRow([cell4, cell5, cell6]),
             expectedRows = [row, row2];
 
         expect(renderer.render(grid)).toEqual(expectedRows);

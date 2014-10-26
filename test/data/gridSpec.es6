@@ -36,6 +36,36 @@ describe('Cell', function() {
         expect(grid.getDimension('d')).toBe(dimension);
     });
 
+    it('getCell', function() {
+        let dimension = new Dimension('d'),
+            dimensionValue = new DimensionValue('dv'),
+            cellDimensionValues = new Map(),
+            dimensionValuesByDimensions = new Map(),
+            dimensions = new Map();
+        cellDimensionValues.set('d', dimensionValue);
+        dimensionValuesByDimensions.set('d', [dimensionValue]);
+        dimensions.set('d', dimension);
+        let cell = new Cell(cellDimensionValues, 10),
+            grid = new Grid(dimensions, dimensionValuesByDimensions, [cell]);
+
+        expect(grid.getCell(cellDimensionValues)).toBe(cell);
+    });
+
+    it('getSets', function() {
+        let dimension = new Dimension('d'),
+            dimensionValue = new DimensionValue('dv'),
+            cellDimensionValues = new Map(),
+            dimensionValuesByDimensions = new Map(),
+            dimensions = new Map();
+        cellDimensionValues.set('d', dimensionValue);
+        dimensionValuesByDimensions.set('d', [dimensionValue]);
+        dimensions.set('d', dimension);
+        let cell = new Cell(cellDimensionValues, 10),
+            grid = new Grid(dimensions, dimensionValuesByDimensions, [cell]);
+
+        expect(grid.getDimenionValuesSets([dimension])).toEqual([cellDimensionValues]);
+    });
+
     it('getDimensionValues', function() {
         let dimension = new Dimension('d'),
             dimensionValue = new DimensionValue('dv'),
