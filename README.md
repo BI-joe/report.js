@@ -47,7 +47,7 @@ This will output
 | My Count |  10  |      |
 | My Sum   |  15  |  20  |
 
-For a brower example without ES6, check [the demo](demo/index.html)
+For a browser example without ES6, check [the demo](http://youknowriad.github.io/report.js)
 
 Contribute
 ----------

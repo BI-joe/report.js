@@ -11,7 +11,6 @@
   "ignore": [
     "**/.*",
     "test",
-    "src",
     "karma.conf.js",
     "package.json",
     "Gruntfile.js"
