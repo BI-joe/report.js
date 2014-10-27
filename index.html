@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Report.js by youknowriad</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Report.js</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/youknowriad/report.js">View the Project on GitHub <small>youknowriad/report.js</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/youknowriad/report.js/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/youknowriad/report.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/youknowriad/report.js">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>Report.js</h1>
+
+<p><a href="https://travis-ci.org/youknowriad/report.js"><img src="https://travis-ci.org/youknowriad/report.js.svg" alt="Build Status"></a></p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="kr">import</span> <span class="p">{</span><span class="nx">GridFactory</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">'data/gridFactory'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span><span class="nx">TableRenderer</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">'data/tableRenderer'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span><span class="nx">OutputHtml</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">'output/outputHtml'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span><span class="nx">Result</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">'result/result'</span><span class="p">;</span>
+
+<span class="c1">// Building the grid</span>
+<span class="kd">let</span> <span class="nx">gridFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GridFactory</span><span class="p">(),</span>
+    <span class="nx">grid</span> <span class="o">=</span> <span class="nx">gridFactory</span><span class="p">.</span><span class="nx">buildFromJson</span><span class="p">({</span>
+        <span class="nx">dimensions</span><span class="o">:</span> <span class="p">[{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'Measures'</span><span class="p">},</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'Year'</span> <span class="p">}],</span>
+        <span class="nx">dimensionValues</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">[{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'count'</span><span class="p">,</span> <span class="nx">caption</span><span class="o">:</span> <span class="s1">'My Count'</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'sum'</span><span class="p">,</span> <span class="nx">caption</span><span class="o">:</span> <span class="s1">'My Sum'</span> <span class="p">}],</span>
+            <span class="p">[{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'2013'</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'2014'</span> <span class="p">}]</span>
+        <span class="p">],</span>
+        <span class="nx">cells</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="nx">value</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">dimensionValues</span><span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]},</span>
+            <span class="p">{</span><span class="nx">value</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span> <span class="nx">dimensionValues</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]},</span>
+            <span class="p">{</span><span class="nx">value</span><span class="o">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nx">dimensionValues</span><span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+        <span class="p">]</span>
+    <span class="p">});</span>
+
+<span class="c1">// Rendering the grid</span>
+<span class="kd">let</span> <span class="nx">tableRenderer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TableRenderer</span><span class="p">([</span><span class="s1">'Year'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'Measures'</span><span class="p">]),</span>
+    <span class="nx">table</span> <span class="o">=</span> <span class="nx">tableRenderer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">grid</span><span class="p">),</span>
+    <span class="nx">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Result</span><span class="p">();</span>
+<span class="nx">result</span><span class="p">.</span><span class="nx">addResult</span><span class="p">(</span><span class="nx">table</span><span class="p">);</span>
+
+<span class="c1">// Output to the dom</span>
+<span class="kd">let</span> <span class="nx">outputHtml</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OutputHtml</span><span class="p">();</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">'#mydiv'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">outputHtml</span><span class="p">.</span><span class="nx">getHtml</span><span class="p">(</span><span class="nx">result</span><span class="p">));</span>
+
+</pre></div>
+
+<p>This will output</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="center">2013</th>
+<th align="center">2014</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>My Count</td>
+<td align="center">10</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>My Sum</td>
+<td align="center">15</td>
+<td align="center">20</td>
+</tr>
+</tbody>
+</table>
+
+<p>For a brower example without ES6, check <a href="demo/index.html">the demo</a></p>
+
+<h2>
+<a name="contribute" class="anchor" href="#contribute"><span class="octicon octicon-link"></span></a>Contribute</h2>
+
+<p>Install the dependencies</p>
+
+<div class="highlight highlight-sh"><pre>git clone https://github.com/youknowriad/report.js.git <span class="o">&amp;&amp;</span> <span class="nb">cd </span>report.js
+npm install
+bower install
+</pre></div>
+
+<h2>
+<a name="tests" class="anchor" href="#tests"><span class="octicon octicon-link"></span></a>Tests</h2>
+
+<div class="highlight highlight-sh"><pre>npm <span class="nb">test</span>
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/youknowriad">youknowriad</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
