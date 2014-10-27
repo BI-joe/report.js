@@ -2,11 +2,12 @@
   "name": "reportjs",
   "version": "1.0.0",
   "description": "Report Library",
+  "repository": "https://github.com/youknowriad/report.js.git",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "karma start"
+    "test": "./node_modules/.bin/karma start --single-run --browsers Firefox"
   },
   "author": "Riad Benguella <benguella@gmail.com>",
   "license": "MIT",
