@@ -1,3 +1,5 @@
+import {Maps} from 'utils/maps';
+
 export class Grid {
 
     constructor(dimensions, dimensionValues, cells) {
@@ -23,7 +25,8 @@ export class Grid {
     }
 
     getDimenionValuesSets(dimensions) {
-        let getSets = function(sets, dimensions, cells, set = new Map()) {
+        let mapUtils = new Maps(),
+            getSets = function(sets, dimensions, cells, set = new Map()) {
                 if (dimensions.length === 0) {
                     sets.push(set);
 
@@ -38,7 +41,7 @@ export class Grid {
                         return cell.getDimensionValue(currentDimension) === dimensionValue;
                     });
                     if (subCells.length) {
-                        let currentSet = _.clone(set);
+                        let currentSet = mapUtils.clone(set);
                         currentSet.set(currentDimension.id, dimensionValue);
                         getSets.call(this, sets, remainingDimensions, subCells, currentSet);
                     }
@@ -52,7 +55,7 @@ export class Grid {
     }
 
     getCell(dimensionValues) {
-        return _.find(this.cells, function(cell) {
+        return this.cells.find(function(cell) {
             let found = true;
             dimensionValues.forEach(function(dimensionValue, dimensionId) {
                 if (dimensionValue.id !== cell.getDimensionValue(this.getDimension(dimensionId)).id) {

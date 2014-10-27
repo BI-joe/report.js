@@ -25,7 +25,7 @@ describe('TableBodyRenderer', function() {
         let cell = new TableCell('d21', { rowspan: 1 }),
             cell2 = new TableCell(10),
             cell3 = new TableCell(''),
-            cell4 = new TableCell('d22', { colspan: 1 }),
+            cell4 = new TableCell('d22', { rowspan: 1 }),
             cell5 = new TableCell(8),
             cell6 = new TableCell(5),
             row = new TableRow([cell, cell2, cell3]),

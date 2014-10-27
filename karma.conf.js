@@ -26,6 +26,6 @@ module.exports = function(config) {
             }
         },
 
-        browsers: ['Safari']
+        browsers: ['Chrome']
     });
 };

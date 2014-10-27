@@ -1,5 +1,6 @@
 import {TableRow}  from 'output/table/tableRow';
 import {TableCell} from 'output/table/tableCell';
+import {Maps}      from 'utils/maps';
 
 export class TableBodyRenderer {
 
@@ -10,23 +11,16 @@ export class TableBodyRenderer {
 
     render(grid) {
 
-        let getBodyCells = function(currentRow, columnDimensions, cells, dimensionValues) {
+        let mapUtils = new Maps(),
+            
+            getBodyCells = function(currentRow, columnDimensions, cells, dimensionValues) {
                 let colSets = grid.getDimenionValuesSets(_.map(columnDimensions, function(dimension) {
                     return grid.getDimension(dimension);
                 }));
 
                 colSets.forEach(function(set) {
-                    let cellSet = new Map();
-                    console.log('set');
-                    dimensionValues.forEach(function(dimensionValue, dimensionId) {
-                        console.log(dimensionId, dimensionValue);
-                        cellSet.set(dimensionId, dimensionValue);
-                    });
-                    set.forEach(function(dimensionValue, dimensionId) {
-                        console.log(dimensionId, dimensionValue);
-                        cellSet.set(dimensionId, dimensionValue);
-                    });
-                    let cell = grid.getCell(set);
+                    let cellSet = mapUtils.sum(dimensionValues, set);
+                    let cell = grid.getCell(cellSet);
                     if (cell) {
                         currentRow.addCell(new TableCell(cell.value));
                     } else {
@@ -58,7 +52,8 @@ export class TableBodyRenderer {
                             rows.push(currentRow);
                             first = false;
                         }
-                        let currentDimensionValues = _.clone(dimensionValues);
+                        let currentDimensionValues = mapUtils.clone(dimensionValues);
+
                         currentDimensionValues.set(currentDimensionId, dimensionValue);
                         let tableCell = new TableCell(dimensionValue.caption);
                         currentRow.addCell(tableCell);
