@@ -6,7 +6,7 @@
     <title>Report.js by youknowriad</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="stylesheets/github.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
@@ -34,6 +34,10 @@
                         {value: 15, dimensionValues: [0, 1, 2, 0]},
                         {value: 10, dimensionValues: [1, 1, 0, 0]},
                         {value: 20, dimensionValues: [1, 1, 0, 1]},
+                        {value: 15, dimensionValues: [1, 1, 1, 0]},
+                        {value: 15, dimensionValues: [1, 1, 2, 0]},
+                        {value: 10, dimensionValues: [1, 0, 0, 0]},
+                        {value: 20, dimensionValues: [1, 0, 0, 1]},
                         {value: 15, dimensionValues: [1, 0, 1, 0]},
                         {value: 15, dimensionValues: [1, 0, 2, 0]}
                     ]
@@ -68,6 +72,47 @@
         <h1>
           <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>Report.js</h1>
 
+          <pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-comment">// Building the grid</span>
+<span class="hljs-keyword">var</span> gridFactory = <span class="hljs-keyword">new</span> reportjs.GridFactory(),
+    grid = gridFactory.buildFromJson({
+        dimensions: [{ id: <span class="hljs-string">'Measures'</span>}, { id: <span class="hljs-string">'Year'</span> }, { id: <span class="hljs-string">'Month'</span> }, { id: <span class="hljs-string">'Category'</span> }],
+        dimensionValues: [
+            [{ id: <span class="hljs-string">'count'</span>, caption: <span class="hljs-string">'My Count'</span> }, { id: <span class="hljs-string">'sum'</span>, caption: <span class="hljs-string">'My Sum'</span> }],
+            [{ id: <span class="hljs-string">'2013'</span> }, { id: <span class="hljs-string">'2014'</span> }],
+            [{ id: <span class="hljs-string">'January'</span> }, { id: <span class="hljs-string">'February'</span> }, { id: <span class="hljs-string">'March'</span> }],
+            [{ id: <span class="hljs-string">'Category 1'</span> }, { id: <span class="hljs-string">'Category 2'</span> }]
+        ],
+        cells: [
+            {value: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">20</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
+            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">20</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
+            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">20</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
+            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">20</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
+            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0</span>]}
+        ]
+    });
+
+<span class="hljs-comment">// Rendering the grid</span>
+<span class="hljs-keyword">var</span> tableRenderer = <span class="hljs-keyword">new</span> reportjs.TableRenderer([<span class="hljs-string">'Year'</span>, <span class="hljs-string">'Month'</span>], [<span class="hljs-string">'Measures'</span>, <span class="hljs-string">'Category'</span>]),
+    table = tableRenderer.render(grid),
+    result = <span class="hljs-keyword">new</span> reportjs.Result();
+result.addResult(table);
+
+<span class="hljs-comment">// Output to the dom</span>
+<span class="hljs-keyword">var</span> outputHtml = <span class="hljs-keyword">new</span> reportjs.OutputHtml();
+$(<span class="hljs-string">'#mydiv'</span>).html(outputHtml.getHtml(result));</code></pre>
+
+          <h2>The result</h2>
           <div id="mydiv"></div>
       </section>
       <footer>

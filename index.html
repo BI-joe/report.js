@@ -6,7 +6,7 @@
     <title>Report.js by youknowriad</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="stylesheets/github.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
@@ -34,39 +34,41 @@
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<div class="highlight highlight-javascript"><pre><span class="kr">import</span> <span class="p">{</span><span class="nx">GridFactory</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">'data/gridFactory'</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span><span class="nx">TableRenderer</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">'data/tableRenderer'</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span><span class="nx">OutputHtml</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">'output/outputHtml'</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span><span class="nx">Result</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">'result/result'</span><span class="p">;</span>
+<p>Report.js is written in EcmapScript 6, so you can use it in ES6 like this.</p>
 
-<span class="c1">// Building the grid</span>
-<span class="kd">let</span> <span class="nx">gridFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GridFactory</span><span class="p">(),</span>
-    <span class="nx">grid</span> <span class="o">=</span> <span class="nx">gridFactory</span><span class="p">.</span><span class="nx">buildFromJson</span><span class="p">({</span>
-        <span class="nx">dimensions</span><span class="o">:</span> <span class="p">[{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'Measures'</span><span class="p">},</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'Year'</span> <span class="p">}],</span>
-        <span class="nx">dimensionValues</span><span class="o">:</span> <span class="p">[</span>
-            <span class="p">[{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'count'</span><span class="p">,</span> <span class="nx">caption</span><span class="o">:</span> <span class="s1">'My Count'</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'sum'</span><span class="p">,</span> <span class="nx">caption</span><span class="o">:</span> <span class="s1">'My Sum'</span> <span class="p">}],</span>
-            <span class="p">[{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'2013'</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">'2014'</span> <span class="p">}]</span>
-        <span class="p">],</span>
-        <span class="nx">cells</span><span class="o">:</span> <span class="p">[</span>
-            <span class="p">{</span><span class="nx">value</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">dimensionValues</span><span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]},</span>
-            <span class="p">{</span><span class="nx">value</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span> <span class="nx">dimensionValues</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]},</span>
-            <span class="p">{</span><span class="nx">value</span><span class="o">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nx">dimensionValues</span><span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
-        <span class="p">]</span>
-    <span class="p">});</span>
+<pre class="prettyprint"><code class="language-javascript hljs ">import {GridFactory} from <span class="hljs-string">'data/gridFactory'</span>;
+import {TableRenderer} from <span class="hljs-string">'data/tableRenderer'</span>;
+import {OutputHtml} from <span class="hljs-string">'output/outputHtml'</span>;
+import {Result} from <span class="hljs-string">'result/result'</span>;
 
-<span class="c1">// Rendering the grid</span>
-<span class="kd">let</span> <span class="nx">tableRenderer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TableRenderer</span><span class="p">([</span><span class="s1">'Year'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'Measures'</span><span class="p">]),</span>
-    <span class="nx">table</span> <span class="o">=</span> <span class="nx">tableRenderer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">grid</span><span class="p">),</span>
-    <span class="nx">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Result</span><span class="p">();</span>
-<span class="nx">result</span><span class="p">.</span><span class="nx">addResult</span><span class="p">(</span><span class="nx">table</span><span class="p">);</span>
+<span class="hljs-comment">// Building the grid</span>
+<span class="hljs-keyword">let</span> gridFactory = <span class="hljs-keyword">new</span> GridFactory(),
+    grid = gridFactory.buildFromJson({
+        dimensions: [{ id: <span class="hljs-string">'Measures'</span>}, { id: <span class="hljs-string">'Year'</span> }],
+        dimensionValues: [
+            [{ id: <span class="hljs-string">'count'</span>, caption: <span class="hljs-string">'My Count'</span> }, { id: <span class="hljs-string">'sum'</span>, caption: <span class="hljs-string">'My Sum'</span> }],
+            [{ id: <span class="hljs-string">'2013'</span> }, { id: <span class="hljs-string">'2014'</span> }]
+        ],
+        cells: [
+            {value: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
+            {value: <span class="hljs-number">20</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]},
+            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]}
+        ]
+    });
 
-<span class="c1">// Output to the dom</span>
-<span class="kd">let</span> <span class="nx">outputHtml</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OutputHtml</span><span class="p">();</span>
-<span class="nx">$</span><span class="p">(</span><span class="s1">'#mydiv'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">outputHtml</span><span class="p">.</span><span class="nx">getHtml</span><span class="p">(</span><span class="nx">result</span><span class="p">));</span>
+<span class="hljs-comment">// Rendering the grid</span>
+<span class="hljs-keyword">let</span> tableRenderer = <span class="hljs-keyword">new</span> TableRenderer([<span class="hljs-string">'Year'</span>], [<span class="hljs-string">'Measures'</span>]),
+    table = tableRenderer.render(grid),
+    result = <span class="hljs-keyword">new</span> Result();
+result.addResult(table);
 
-</pre></div>
+<span class="hljs-comment">// Output to the dom</span>
+<span class="hljs-keyword">let</span> outputHtml = <span class="hljs-keyword">new</span> OutputHtml();
+$(<span class="hljs-string">'#mydiv'</span>).html(outputHtml.getHtml(result));</code></pre>
 
-<p>This will output</p>
+<p>If you're using ES5 (current javascript supported by all the browsers), include the library. the library is loaded in the global variable "reportjs". See the complexe example for more details.</p>
+
+<p>The above example will output</p>
 
 <table>
 <thead>
