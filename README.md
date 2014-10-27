@@ -14,7 +14,7 @@ import {OutputHtml} from 'output/outputHtml';
 import {Result} from 'result/result';
 
 // Building the grid
-let gridFactory = new GridFactory();
+let gridFactory = new GridFactory(),
     grid = gridFactory.buildFromJson({
         dimensions: [{ id: 'Measures'}, { id: 'Year' }],
         dimensionValues: [
@@ -47,6 +47,7 @@ This will output
 | My Count |  10  |      |
 | My Sum   |  15  |  20  |
 
+For a brower example without ES6, check [the demo](demo/index.html)
 
 Contribute
 ----------
