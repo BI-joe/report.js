@@ -1,7 +1,7 @@
 export class Table {
 
-    constructor() {
-        this.rows = [];
+    constructor(rows = []) {
+        this.rows = rows;
     }
 
     addRow(row) {

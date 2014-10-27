@@ -1,5 +1,5 @@
-import {TableRow} from 'output/table/tableRow';
-import {TableCell} from 'output/table/tableCell';
+import {TableRow} from 'result/table/tableRow';
+import {TableCell} from 'result/table/tableCell';
 import {GridFactory} from 'data/gridFactory';
 import {TableHeaderRenderer} from 'renderer/table/tableHeaderRenderer';
 
@@ -27,10 +27,11 @@ describe('TableHeaderRenderer', function() {
             cell3 = new TableCell('d11', { colspan: 1 }),
             cell4 = new TableCell('d11', { colspan: 1 }),
             cell5 = new TableCell('d12', { colspan: 1 }),
-            row = new TableRow([cell, cell2]),
-            row2 = new TableRow([cell3, cell4, cell5]),
+            headerCell = new TableCell('header'),
+            row = new TableRow([headerCell, cell, cell2]),
+            row2 = new TableRow([headerCell, cell3, cell4, cell5]),
             expectedRows = [row, row2];
 
-        expect(renderer.render(grid)).toEqual(expectedRows);
+        expect(renderer.render(grid, [headerCell])).toEqual(expectedRows);
     });
 });

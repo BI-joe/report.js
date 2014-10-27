@@ -1,5 +1,5 @@
-import {TableRow}  from 'output/table/tableRow';
-import {TableCell} from 'output/table/tableCell';
+import {TableRow}  from 'result/table/tableRow';
+import {TableCell} from 'result/table/tableCell';
 import {Maps}      from 'utils/maps';
 
 export class TableBodyRenderer {
@@ -12,7 +12,7 @@ export class TableBodyRenderer {
     render(grid) {
 
         let mapUtils = new Maps(),
-            
+
             getBodyCells = function(currentRow, columnDimensions, cells, dimensionValues) {
                 let colSets = grid.getDimenionValuesSets(_.map(columnDimensions, function(dimension) {
                     return grid.getDimension(dimension);
@@ -70,5 +70,13 @@ export class TableBodyRenderer {
         getRows(rows, this.rowDimensions, this.columnDimensions, grid.cells);
 
         return rows;
+    }
+
+    getHeaderCells() {
+        return [
+            new TableCell('', {
+                colspan: this.rowDimensions.length
+            })
+        ];
     }
 }

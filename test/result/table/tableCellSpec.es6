@@ -1,4 +1,4 @@
-import {TableCell} from 'output/table/tableCell';
+import {TableCell} from 'result/table/tableCell';
 
 describe('TableCell', function() {
     it('constructor', function() {

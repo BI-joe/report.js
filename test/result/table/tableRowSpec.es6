@@ -1,5 +1,5 @@
-import {TableRow} from 'output/table/tableRow';
-import {TableCell} from 'output/table/tableCell';
+import {TableRow} from 'result/table/tableRow';
+import {TableCell} from 'result/table/tableCell';
 
 describe('TableRow', function() {
     it('constructor', function() {

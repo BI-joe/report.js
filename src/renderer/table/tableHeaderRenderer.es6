@@ -1,5 +1,5 @@
-import {TableRow}  from 'output/table/tableRow';
-import {TableCell} from 'output/table/tableCell';
+import {TableRow}  from 'result/table/tableRow';
+import {TableCell} from 'result/table/tableCell';
 import {Maps}      from 'utils/maps';
 
 export class TableHeaderRenderer {
@@ -8,7 +8,7 @@ export class TableHeaderRenderer {
         this.columnDimensions = columnDimensions;
     }
 
-    render(grid) {
+    render(grid, headerCells = []) {
 
         let mapUtils = new Maps(),
             getHeaderRows = function(rows, dimensions, cells, dimensionValues = new Map()) {
@@ -49,11 +49,12 @@ export class TableHeaderRenderer {
 
         let rowsMap = new Map();
         if (this.columnDimensions.length === 0) {
-            return [new TableRow([ new TableCell('') ])];
+            return headerCells.concat([new TableRow([ new TableCell('') ])]);
         } else {
             getHeaderRows(rowsMap, this.columnDimensions, grid.cells);
             let rows = [];
             rowsMap.forEach(function(row) {
+                row.cells = headerCells.concat(row.cells);
                 rows.push(row);
             });
             return rows;
