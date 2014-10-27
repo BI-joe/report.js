@@ -2520,9 +2520,9 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
           },
           getRows = function(rows, rowDimensions, columnDimensions, cells) {
             var dimensionValues = arguments[4] !== (void 0) ? arguments[4] : new Map();
-            var currentRow = arguments[5] !== (void 0) ? arguments[5] : null;
+            var row = arguments[5] !== (void 0) ? arguments[5] : null;
             if (rowDimensions.length === 0) {
-              getBodyCells(currentRow, columnDimensions, cells, dimensionValues);
+              getBodyCells(row, columnDimensions, cells, dimensionValues);
               return 1;
             }
             var currentDimensionId = _.first(rowDimensions),
@@ -2531,25 +2531,27 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
                 countCells = 0,
                 first = true;
             grid.getDimensionValues(currentDimension).forEach(function(dimensionValue) {
-              var currentDimensionValues$__7;
-              var tableCell$__8;
-              var childCellsCount$__9;
+              var currentRow$__7;
+              var currentDimensionValues$__8;
+              var tableCell$__9;
+              var childCellsCount$__10;
               var subCells = _.filter(cells, function(cell) {
                 return cell.getDimensionValue(currentDimension) === dimensionValue;
               });
               if (subCells.length) {
-                if (currentRow === null || !first) {
-                  currentRow = new TableRow();
-                  rows.push(currentRow);
-                  first = false;
+                currentRow$__7 = row;
+                if (row === null || !first) {
+                  currentRow$__7 = new TableRow();
+                  rows.push(currentRow$__7);
                 }
-                currentDimensionValues$__7 = mapUtils.clone(dimensionValues);
-                currentDimensionValues$__7.set(currentDimensionId, dimensionValue);
-                tableCell$__8 = new TableCell(dimensionValue.caption);
-                currentRow.addCell(tableCell$__8);
-                childCellsCount$__9 = getRows(rows, remainingDimensions, columnDimensions, subCells, currentDimensionValues$__7, currentRow);
-                tableCell$__8.setOption('rowspan', childCellsCount$__9);
-                countCells += childCellsCount$__9;
+                first = false;
+                currentDimensionValues$__8 = mapUtils.clone(dimensionValues);
+                currentDimensionValues$__8.set(currentDimensionId, dimensionValue);
+                tableCell$__9 = new TableCell(dimensionValue.caption);
+                currentRow$__7.addCell(tableCell$__9);
+                childCellsCount$__10 = getRows(rows, remainingDimensions, columnDimensions, subCells, currentDimensionValues$__8, currentRow$__7);
+                tableCell$__9.setOption('rowspan', childCellsCount$__10);
+                countCells += childCellsCount$__10;
               }
             });
             return countCells;

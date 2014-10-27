@@ -29,9 +29,9 @@ export class TableBodyRenderer {
                 });
             },
 
-            getRows = function(rows, rowDimensions, columnDimensions, cells, dimensionValues = new Map(), currentRow = null) {
+            getRows = function(rows, rowDimensions, columnDimensions, cells, dimensionValues = new Map(), row = null) {
                 if (rowDimensions.length === 0) {
-                    getBodyCells(currentRow, columnDimensions, cells, dimensionValues);
+                    getBodyCells(row, columnDimensions, cells, dimensionValues);
                     return 1;
                 }
 
@@ -47,11 +47,12 @@ export class TableBodyRenderer {
                         return cell.getDimensionValue(currentDimension) === dimensionValue;
                     });
                     if (subCells.length) {
-                        if (currentRow === null || !first) {
+                        let currentRow = row;
+                        if (row === null || !first) {
                             currentRow = new TableRow();
                             rows.push(currentRow);
-                            first = false;
                         }
+                        first = false;
                         let currentDimensionValues = mapUtils.clone(dimensionValues);
 
                         currentDimensionValues.set(currentDimensionId, dimensionValue);
