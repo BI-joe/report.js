@@ -2699,19 +2699,20 @@ define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'output/
   var TableRenderer = $__2.TableRenderer;
   var OutputHtml = $__4.OutputHtml;
   var Result = $__6.Result;
-  ;
+  var Renderer = function Renderer() {};
+  ($traceurRuntime.createClass)(Renderer, {render: function(options) {
+      var gridFactory = new GridFactory(),
+          grid = gridFactory.buildFromJson(options.data);
+      var tableRenderer = new TableRenderer(options.rows, options.columns),
+          table = tableRenderer.render(grid),
+          result = new Result();
+      result.addResult(table);
+      var outputHtml = new OutputHtml();
+      return outputHtml.getHtml(result);
+    }}, {});
   return {
-    get GridFactory() {
-      return GridFactory;
-    },
-    get TableRenderer() {
-      return TableRenderer;
-    },
-    get OutputHtml() {
-      return OutputHtml;
-    },
-    get Result() {
-      return Result;
+    get Renderer() {
+      return Renderer;
     },
     __esModule: true
   };
