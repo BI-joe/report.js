@@ -23,7 +23,8 @@
 
         <p class="view"><a href="https://github.com/youknowriad/report.js">View the Project on GitHub <small>youknowriad/report.js</small></a></p>
 
-        <p class="view"><a href="complex.html">Complex Example</a></p>
+        <p class="small"><a href="complex.html">Complex Example</a></p>
+        <p class="small"><a href="line.html">Graph Line Example</a></p>
       </header>
       <section>
         <h1>
@@ -32,39 +33,41 @@
 <p><a href="https://travis-ci.org/youknowriad/report.js"><img src="https://travis-ci.org/youknowriad/report.js.svg" alt="Build Status"></a></p>
 
 <h2>
+<a name="dependancies" class="anchor" href="#dependancies"><span class="octicon octicon-link"></span></a>Dependancies</h2>
+
+<p>Report.js depend on <a href="http://jquery.com">jQuery</a>, <a href="http://lodash.com">Lodash</a> and <a href="http://chartjs.org">Chart.js</a>.
+Don't forget to add them to your page.</p>
+
+<h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>Report.js is written in EcmapScript 6, so you can use it in ES6 like this.</p>
 
-<pre class="prettyprint"><code class="language-javascript hljs ">import {GridFactory} from <span class="hljs-string">'data/gridFactory'</span>;
-import {TableRenderer} from <span class="hljs-string">'data/tableRenderer'</span>;
-import {OutputHtml} from <span class="hljs-string">'output/outputHtml'</span>;
-import {Result} from <span class="hljs-string">'result/result'</span>;
+<pre><code class="lang-javascript">import {Renderer} <span class="hljs-keyword">from</span> <span class="hljs-string">'reportjs'</span>;
 
-<span class="hljs-comment">// Building the grid</span>
-<span class="hljs-keyword">let</span> gridFactory = <span class="hljs-keyword">new</span> GridFactory(),
-    grid = gridFactory.buildFromJson({
-        dimensions: [{ id: <span class="hljs-string">'Measures'</span>}, { id: <span class="hljs-string">'Year'</span> }],
-        dimensionValues: [
-            [{ id: <span class="hljs-string">'count'</span>, caption: <span class="hljs-string">'My Count'</span> }, { id: <span class="hljs-string">'sum'</span>, caption: <span class="hljs-string">'My Sum'</span> }],
-            [{ id: <span class="hljs-string">'2013'</span> }, { id: <span class="hljs-string">'2014'</span> }]
-        ],
-        cells: [
-            {value: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
-            {value: <span class="hljs-number">20</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]},
-            {value: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]}
-        ]
-    });
+<span class="hljs-keyword">let</span> renderer = <span class="hljs-keyword">new</span> Renderer(),
+    options = {
+        data: {
+            dimensions: [{ id: <span class="hljs-string">'Measures'</span>}, { id: <span class="hljs-string">'Year'</span> }],
+            dimensionValues: [
+                [{ id: <span class="hljs-string">'count'</span>, caption: <span class="hljs-string">'My Count'</span> }, { id: <span class="hljs-string">'sum'</span>, caption: <span class="hljs-string">'My Sum'</span> }],
+                [{ id: <span class="hljs-string">'2013'</span> }, { id: <span class="hljs-string">'2014'</span> }]
+            ],
+            cells: [
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">20</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]}
+            ]
+        },
+        layout: {
+            type: <span class="hljs-string">'table'</span>,
+            rows: [<span class="hljs-string">'Measures'</span>],
+            columns: [<span class="hljs-string">'Measures'</span>, <span class="hljs-string">'Category'</span>]
+        }
+    };
 
-<span class="hljs-comment">// Rendering the grid</span>
-<span class="hljs-keyword">let</span> tableRenderer = <span class="hljs-keyword">new</span> TableRenderer([<span class="hljs-string">'Year'</span>], [<span class="hljs-string">'Measures'</span>]),
-    table = tableRenderer.render(grid),
-    result = <span class="hljs-keyword">new</span> Result();
-result.addResult(table);
-
-<span class="hljs-comment">// Output to the dom</span>
-<span class="hljs-keyword">let</span> outputHtml = <span class="hljs-keyword">new</span> OutputHtml();
-$(<span class="hljs-string">'#mydiv'</span>).html(outputHtml.getHtml(result));</code></pre>
+renderer.renderTo($(<span class="hljs-string">'#mydiv'</span>), options);
+</code></pre>
 
 <p>If you're using ES5 (current javascript supported by all the browsers), include the library. the library is loaded in the global variable "reportjs". See the <a href="complex.html">complex example</a> for more details.</p>
 

@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Report.js by youknowriad</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
+    <script src="javascripts/reportjs.js"></script>
+    <script>
+        $(document).ready(function() {
+            var renderer = new reportjs.Renderer(),
+                options = {
+                    data: {
+                        dimensions: [{ id: 'Measures'}, { id: 'Year' }, { id: 'Month' }],
+                        dimensionValues: [
+                            [{ id: 'count', caption: 'My Count' }],
+                            [{ id: '2013' }, { id: '2014' }],
+                            [{ id: 'January' }, { id: 'February' }, { id: 'March' }]
+                        ],
+                        cells: [
+                            {value: 10, dimensionValues: [0, 0, 0]},
+                            {value: 15, dimensionValues: [0, 0, 1]},
+                            {value: 9, dimensionValues: [0, 0, 2]},
+                            {value: 10, dimensionValues: [0, 1, 0]},
+                            {value: 15, dimensionValues: [0, 1, 1]},
+                            {value: 12, dimensionValues: [0, 1, 2]}
+                        ]
+                    },
+                    layout: {
+                        type: 'graph',
+                        labels: ['Year', 'Month'],
+                        datasets: ['Measures']
+                    }
+                };
+
+            renderer.renderTo($('#mydiv'), options);
+        });
+    </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1><a href="index.html">Report.js</a></h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/youknowriad/report.js">View the Project on GitHub <small>youknowriad/report.js</small></a></p>
+
+        <p class="small"><a href="complex.html">Complex Example</a></p>
+        <p class="small"><a href="line.html">Graph Line Example</a></p>
+      </header>
+      <section>
+        <h1>
+          <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>ChartJS Line example</h1>
+
+          <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> reportjs.Renderer(),
+    options = {
+        data: {
+            dimensions: [{ id: <span class="hljs-string">'Measures'</span>}, { id: <span class="hljs-string">'Year'</span> }, { id: <span class="hljs-string">'Month'</span> }],
+            dimensionValues: [
+                [{ id: <span class="hljs-string">'count'</span>, caption: <span class="hljs-string">'My Count'</span> }],
+                [{ id: <span class="hljs-string">'2013'</span> }, { id: <span class="hljs-string">'2014'</span> }],
+                [{ id: <span class="hljs-string">'January'</span> }, { id: <span class="hljs-string">'February'</span> }, { id: <span class="hljs-string">'March'</span> }]
+            ],
+            cells: [
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">9</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">12</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]}
+            ]
+        },
+        layout: {
+            type: <span class="hljs-string">'graph'</span>,
+            labels: [<span class="hljs-string">'Year'</span>, <span class="hljs-string">'Month'</span>],
+            datasets: [<span class="hljs-string">'Measures'</span>]
+        }
+    };
+
+renderer.renderTo($(<span class="hljs-string">'#mydiv'</span>), options);
+</code></pre>
+
+          <h2>The result</h2>
+          <div id="mydiv"></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/youknowriad">youknowriad</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>

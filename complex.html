@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
     <script src="javascripts/reportjs.js"></script>
     <script>
         $(document).ready(function() {
@@ -42,11 +43,14 @@
                             {value: 15, dimensionValues: [1, 0, 2, 0]}
                         ]
                     },
-                    rows: ['Year', 'Month'],
-                    columns: ['Measures', 'Category']
+                    layout: {
+                        type: 'table',
+                        rows: ['Year', 'Month'],
+                        columns: ['Measures', 'Category']
+                    }
                 };
 
-            $('#mydiv').html(renderer.render(options));
+            renderer.renderTo($('#mydiv'), options);
         });
     </script>
     <!--[if lt IE 9]>
@@ -61,11 +65,12 @@
 
         <p class="view"><a href="https://github.com/youknowriad/report.js">View the Project on GitHub <small>youknowriad/report.js</small></a></p>
 
-        <p class="view"><a href="complex.html">Complex Example</a></p>
+        <p class="small"><a href="complex.html">Complex Example</a></p>
+        <p class="small"><a href="line.html">Graph Line Example</a></p>
       </header>
       <section>
         <h1>
-          <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>Report.js</h1>
+          <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>Table example with rowspans and colspans</h1>
 
           <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> reportjs.Renderer(),
     options = {
@@ -96,11 +101,14 @@
                 {<span class="hljs-keyword">value</span>: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0</span>]}
             ]
         },
-        rows: [<span class="hljs-string">'Year'</span>, <span class="hljs-string">'Month'</span>],
-        columns: [<span class="hljs-string">'Measures'</span>, <span class="hljs-string">'Category'</span>]
+        layout: {
+            type: <span class="hljs-string">'table'</span>,
+            rows: [<span class="hljs-string">'Year'</span>, <span class="hljs-string">'Month'</span>],
+            columns: [<span class="hljs-string">'Measures'</span>, <span class="hljs-string">'Category'</span>]
+        }
     };
 
-$(<span class="hljs-string">'#mydiv'</span>).html(renderer.render(options));
+renderer.renderTo($(<span class="hljs-string">'#mydiv'</span>), options);
 </code></pre>
 
           <h2>The result</h2>
