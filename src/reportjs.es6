@@ -21,7 +21,16 @@ export class Renderer {
 
             chart.Line({
                 labels: graph.labels,
-                datasets: graph.datasets
+                datasets: graph.datasets.map(dataset => {
+                    dataset.fillColor = 'rgba(151,187,205,0.2)';
+                    dataset.strokeColor = 'rgba(151,187,205,1)';
+                    dataset.pointColor = 'rgba(151,187,205,1)';
+                    dataset.pointStrokeColor = '#fff';
+                    dataset.pointHighlightFill = '#fff';
+                    dataset.pointHighlightStroke = 'rgba(151,187,205,1)';
+
+                    return dataset;
+                })
             });
         }
     }

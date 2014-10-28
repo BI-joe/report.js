@@ -513,7 +513,15 @@ define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'rendere
         chart$__12 = new Chart(context$__11);
         chart$__12.Line({
           labels: graph$__10.labels,
-          datasets: graph$__10.datasets
+          datasets: graph$__10.datasets.map((function(dataset) {
+            dataset.fillColor = 'rgba(151,187,205,0.2)';
+            dataset.strokeColor = 'rgba(151,187,205,1)';
+            dataset.pointColor = 'rgba(151,187,205,1)';
+            dataset.pointStrokeColor = '#fff';
+            dataset.pointHighlightFill = '#fff';
+            dataset.pointHighlightStroke = 'rgba(151,187,205,1)';
+            return dataset;
+          }), {})
         });
       }
     }}, {});
