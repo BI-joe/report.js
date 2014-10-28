@@ -36,10 +36,8 @@ export class Grid {
                 let currentDimension     = _.first(dimensions),
                     remainingDimensions    = _.without(dimensions, currentDimension);
 
-                this.getDimensionValues(currentDimension).forEach(function(dimensionValue) {
-                    let subCells = _.filter(cells, function(cell) {
-                        return cell.getDimensionValue(currentDimension) === dimensionValue;
-                    });
+                this.getDimensionValues(currentDimension).forEach(dimensionValue => {
+                    let subCells = _.filter(cells, cell => cell.getDimensionValue(currentDimension) === dimensionValue);
                     if (subCells.length) {
                         let currentSet = mapUtils.clone(set);
                         currentSet.set(currentDimension.id, dimensionValue);
@@ -55,9 +53,9 @@ export class Grid {
     }
 
     getCell(dimensionValues) {
-        return this.cells.find(function(cell) {
+        return this.cells.find(cell => {
             let found = true;
-            dimensionValues.forEach(function(dimensionValue, dimensionId) {
+            dimensionValues.forEach((dimensionValue, dimensionId) => {
                 if (dimensionValue.id !== cell.getDimensionValue(this.getDimension(dimensionId)).id) {
                     found = false;
                 }

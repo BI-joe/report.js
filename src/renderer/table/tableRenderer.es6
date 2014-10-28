@@ -17,8 +17,8 @@ export class TableRenderer {
             headerRows = tableHeaderRenderer.render(grid, tableBodyRenderer.getHeaderCells()),
             bodyRows = tableBodyRenderer.render(grid);
 
-        headerRows.forEach(function(row) { table.addRow(row); });
-        bodyRows.forEach(function(row) { table.addRow(row); });
+        headerRows.forEach(row => { table.addRow(row); });
+        bodyRows.forEach(row => { table.addRow(row); });
 
         return table;
     }

@@ -27,10 +27,8 @@ export class TableHeaderRenderer {
                     currentRow = new TableRow();
                     rows.set(currentDimensionId, currentRow);
                 }
-                grid.getDimensionValues(currentDimension).forEach(function(dimensionValue) {
-                    let subCells = _.filter(cells, function(cell) {
-                        return cell.getDimensionValue(currentDimension) === dimensionValue;
-                    });
+                grid.getDimensionValues(currentDimension).forEach(dimensionValue => {
+                    let subCells = _.filter(cells, cell => cell.getDimensionValue(currentDimension) === dimensionValue);
                     if (subCells.length) {
                         let currentDimensionValues = mapUtils.clone(dimensionValues);
                         currentDimensionValues.set(currentDimensionId, dimensionValue);
@@ -53,7 +51,7 @@ export class TableHeaderRenderer {
         } else {
             getHeaderRows(rowsMap, this.columnDimensions, grid.cells);
             let rows = [];
-            rowsMap.forEach(function(row) {
+            rowsMap.forEach(row => {
                 row.cells = headerCells.concat(row.cells);
                 rows.push(row);
             });

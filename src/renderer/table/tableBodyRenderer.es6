@@ -14,11 +14,9 @@ export class TableBodyRenderer {
         let mapUtils = new Maps(),
 
             getBodyCells = function(currentRow, columnDimensions, cells, dimensionValues) {
-                let colSets = grid.getDimenionValuesSets(_.map(columnDimensions, function(dimension) {
-                    return grid.getDimension(dimension);
-                }));
+                let colSets = grid.getDimenionValuesSets(_.map(columnDimensions, dimension => grid.getDimension(dimension)));
 
-                colSets.forEach(function(set) {
+                colSets.forEach(set => {
                     let cellSet = mapUtils.sum(dimensionValues, set);
                     let cell = grid.getCell(cellSet);
                     if (cell) {
@@ -41,11 +39,9 @@ export class TableBodyRenderer {
                     countCells             = 0,
                     first                  = true;
 
-                grid.getDimensionValues(currentDimension).forEach(function(dimensionValue) {
+                grid.getDimensionValues(currentDimension).forEach(dimensionValue => {
 
-                    let subCells = _.filter(cells, function(cell) {
-                        return cell.getDimensionValue(currentDimension) === dimensionValue;
-                    });
+                    let subCells = _.filter(cells, cell => cell.getDimensionValue(currentDimension) === dimensionValue);
                     if (subCells.length) {
                         let currentRow = row;
                         if (row === null || !first) {

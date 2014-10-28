@@ -4,9 +4,9 @@ export class OutputHtml {
         let
             getHtmlForTable = function(table) {
                 let html = '';
-                table.rows.forEach(function(row) {
+                table.rows.forEach(row => {
                     let rowHtml = '';
-                    row.cells.forEach(function(cell) {
+                    row.cells.forEach(cell => {
                         let cellAttributes = [];
                         if (cell.options.rowspan !== undefined && cell.options.rowspan > 1) {
                             cellAttributes.push('rowspan="'+cell.options.rowspan+'"');
@@ -25,7 +25,7 @@ export class OutputHtml {
                 return '<table>' + html + '</table>';
             },
             htmls = [];
-        result.results.forEach(function(table) {
+        result.results.forEach(table => {
             htmls.push(getHtmlForTable(table));
         });
 
