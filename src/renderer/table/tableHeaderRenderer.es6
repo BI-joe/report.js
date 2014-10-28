@@ -28,7 +28,7 @@ export class TableHeaderRenderer {
                     rows.set(currentDimensionId, currentRow);
                 }
                 grid.getDimensionValues(currentDimension).forEach(dimensionValue => {
-                    let subCells = _.filter(cells, cell => cell.getDimensionValue(currentDimension) === dimensionValue);
+                    let subCells = cells.filter(cell => cell.getDimensionValue(currentDimension) === dimensionValue);
                     if (subCells.length) {
                         let currentDimensionValues = mapUtils.clone(dimensionValues);
                         currentDimensionValues.set(currentDimensionId, dimensionValue);
