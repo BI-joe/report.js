@@ -12,7 +12,7 @@ describe('Table', function() {
     });
 
     it('getHtml', function() {
-        let headerCell = new TableCell('', { colspan: 1}),
+        let headerCell = new TableCell('', { colspan: 1, header: true}),
             headerCell2 = new TableCell('d11', { colspan: 1}),
             headerCell3 = new TableCell('d12', { colspan: 1}),
             cell = new TableCell('d21', { rowspan: 1 }),
@@ -27,6 +27,6 @@ describe('Table', function() {
             rows = [headerRow, row, row2],
             table = new Table(rows);
 
-        expect(table.getHtml()).toEqual('<table><tr><td></td><td>d11</td><td>d12</td></tr><tr><td>d21</td><td>10</td><td></td></tr><tr><td>d22</td><td>8</td><td>5</td></tr></table>');
+        expect(table.getHtml()).toEqual('<table><tr><th></th><td>d11</td><td>d12</td></tr><tr><td>d21</td><td>10</td><td></td></tr><tr><td>d22</td><td>8</td><td>5</td></tr></table>');
     });
 });

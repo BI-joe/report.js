@@ -4,7 +4,7 @@ import {Table} from 'result/table/table';
 import {GridFactory} from 'data/gridFactory';
 import {TableRenderer} from 'renderer/table/tableRenderer';
 
-describe('TableBodyRenderer', function() {
+describe('TableRenderer', function() {
     it('render', function() {
         let
             factory = new GridFactory(),
@@ -24,13 +24,13 @@ describe('TableBodyRenderer', function() {
             renderer = new TableRenderer(['d2'],['d']);
 
         let
-            headerCell = new TableCell('', { colspan: 1}),
-            headerCell2 = new TableCell('d11', { colspan: 1}),
-            headerCell3 = new TableCell('d12', { colspan: 1}),
-            cell = new TableCell('d21', { rowspan: 1 }),
+            headerCell = new TableCell('', { colspan: 1, header: true}),
+            headerCell2 = new TableCell('d11', { colspan: 1, header: true}),
+            headerCell3 = new TableCell('d12', { colspan: 1, header: true}),
+            cell = new TableCell('d21', { rowspan: 1, header: true }),
             cell2 = new TableCell(10),
             cell3 = new TableCell(''),
-            cell4 = new TableCell('d22', { rowspan: 1 }),
+            cell4 = new TableCell('d22', { rowspan: 1, header: true }),
             cell5 = new TableCell(8),
             cell6 = new TableCell(5),
             headerRow = new TableRow([headerCell, headerCell2, headerCell3]),

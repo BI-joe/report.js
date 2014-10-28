@@ -22,12 +22,12 @@ describe('TableHeaderRenderer', function() {
             grid = factory.buildFromJson(gridData),
             renderer = new TableHeaderRenderer(['d2', 'd']);
 
-        let cell = new TableCell('d21', { colspan: 1 }),
-            cell2 = new TableCell('d22', { colspan: 2 }),
-            cell3 = new TableCell('d11', { colspan: 1 }),
-            cell4 = new TableCell('d11', { colspan: 1 }),
-            cell5 = new TableCell('d12', { colspan: 1 }),
-            headerCell = new TableCell('header'),
+        let cell = new TableCell('d21', { colspan: 1, header: true }),
+            cell2 = new TableCell('d22', { colspan: 2, header: true }),
+            cell3 = new TableCell('d11', { colspan: 1, header: true }),
+            cell4 = new TableCell('d11', { colspan: 1, header: true }),
+            cell5 = new TableCell('d12', { colspan: 1, header: true }),
+            headerCell = new TableCell('header', { header: true }),
             row = new TableRow([headerCell, cell, cell2]),
             row2 = new TableRow([headerCell, cell3, cell4, cell5]),
             expectedRows = [row, row2];

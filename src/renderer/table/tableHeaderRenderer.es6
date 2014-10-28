@@ -35,7 +35,8 @@ export class TableHeaderRenderer {
                         let childCellsCount = getHeaderRows(rows, remainingDimensions, subCells, currentDimensionValues);
 
                         currentRow.addCell(new TableCell(dimensionValue.caption, {
-                            colspan: childCellsCount
+                            colspan: childCellsCount,
+                            header: true
                         }));
 
                         countCells += childCellsCount;
@@ -47,7 +48,7 @@ export class TableHeaderRenderer {
 
         let rowsMap = new Map();
         if (this.columnDimensions.length === 0) {
-            return headerCells.concat([new TableRow([ new TableCell('') ])]);
+            return headerCells.concat([new TableRow([ new TableCell('', { header: true }) ])]);
         } else {
             getHeaderRows(rowsMap, this.columnDimensions, grid.cells);
             let rows = [];

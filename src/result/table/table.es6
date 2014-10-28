@@ -21,7 +21,8 @@ export class Table {
                     cellAttributes.push('colspan="'+cell.options.colspan+'"');
                 }
 
-                rowHtml += '<td' + (cellAttributes.length ? ' ' + cellAttributes.join(' ') : '') + '>' + cell.value + '</td>';
+                let tag = cell.options.header === undefined || !cell.options.header ? 'td' : 'th';
+                rowHtml += '<' + tag + (cellAttributes.length ? ' ' + cellAttributes.join(' ') : '') + '>' + cell.value + '</' + tag + '>';
             });
 
             rowHtml = '<tr>' + rowHtml + '</tr>';

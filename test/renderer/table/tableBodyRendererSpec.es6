@@ -22,10 +22,10 @@ describe('TableBodyRenderer', function() {
             grid = factory.buildFromJson(gridData),
             renderer = new TableBodyRenderer(['d2'],['d']);
 
-        let cell = new TableCell('d21', { rowspan: 1 }),
+        let cell = new TableCell('d21', { rowspan: 1, header: true }),
             cell2 = new TableCell(10),
             cell3 = new TableCell(''),
-            cell4 = new TableCell('d22', { rowspan: 1 }),
+            cell4 = new TableCell('d22', { rowspan: 1, header: true }),
             cell5 = new TableCell(8),
             cell6 = new TableCell(5),
             row = new TableRow([cell, cell2, cell3]),
@@ -54,13 +54,13 @@ describe('TableBodyRenderer', function() {
             grid = factory.buildFromJson(gridData),
             renderer = new TableBodyRenderer(['d', 'd2'], ['d3']);
 
-        let cell = new TableCell('d11', { rowspan: 2 }),
-            cell2 = new TableCell('d21', { rowspan: 1 }),
+        let cell = new TableCell('d11', { rowspan: 2, header: true }),
+            cell2 = new TableCell('d21', { rowspan: 1, header: true }),
             cell3 = new TableCell(10),
-            cell4 = new TableCell('d22', { rowspan: 1 }),
+            cell4 = new TableCell('d22', { rowspan: 1, header: true }),
             cell5 = new TableCell(5),
-            cell6 = new TableCell('d12', { rowspan: 1 }),
-            cell7 = new TableCell('d21', { rowspan: 1 }),
+            cell6 = new TableCell('d12', { rowspan: 1, header: true }),
+            cell7 = new TableCell('d21', { rowspan: 1, header: true }),
             cell8 = new TableCell(8),
             row = new TableRow([cell, cell2, cell3]),
             row2 = new TableRow([cell4, cell5]),
@@ -74,7 +74,8 @@ describe('TableBodyRenderer', function() {
         let renderer = new TableBodyRenderer(['d1', 'd2'],['d']);
         expect(renderer.getHeaderCells()).toEqual([
             new TableCell('', {
-                colspan: 2
+                colspan: 2,
+                header: true
             })
         ]);
     });

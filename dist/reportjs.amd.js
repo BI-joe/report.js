@@ -390,7 +390,7 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
                 first = false;
                 currentDimensionValues$__8 = mapUtils.clone(dimensionValues);
                 currentDimensionValues$__8.set(currentDimensionId, dimensionValue);
-                tableCell$__9 = new TableCell(dimensionValue.caption);
+                tableCell$__9 = new TableCell(dimensionValue.caption, {header: true});
                 currentRow$__7.addCell(tableCell$__9);
                 childCellsCount$__10 = getRows(rows, remainingDimensions, columnDimensions, subCells, currentDimensionValues$__8, currentRow$__7);
                 tableCell$__9.setOption('rowspan', childCellsCount$__10);
@@ -404,7 +404,10 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
       return rows;
     },
     getHeaderCells: function() {
-      return [new TableCell('', {colspan: this.rowDimensions.length})];
+      return [new TableCell('', {
+        colspan: this.rowDimensions.length,
+        header: true
+      })];
     }
   }, {});
   return {
@@ -460,7 +463,10 @@ define("renderer/table/tableHeaderRenderer", ['result/table/tableRow', 'result/t
                 currentDimensionValues$__7 = mapUtils.clone(dimensionValues);
                 currentDimensionValues$__7.set(currentDimensionId, dimensionValue);
                 childCellsCount$__8 = getHeaderRows(rows, remainingDimensions, subCells, currentDimensionValues$__7);
-                currentRow.addCell(new TableCell(dimensionValue.caption, {colspan: childCellsCount$__8}));
+                currentRow.addCell(new TableCell(dimensionValue.caption, {
+                  colspan: childCellsCount$__8,
+                  header: true
+                }));
                 countCells += childCellsCount$__8;
               }
             }));
@@ -468,7 +474,7 @@ define("renderer/table/tableHeaderRenderer", ['result/table/tableRow', 'result/t
           };
       var rowsMap = new Map();
       if (this.columnDimensions.length === 0) {
-        return headerCells.concat([new TableRow([new TableCell('')])]);
+        return headerCells.concat([new TableRow([new TableCell('', {header: true})])]);
       } else {
         getHeaderRows(rowsMap, this.columnDimensions, grid.cells);
         rows$__9 = [];
@@ -629,7 +635,8 @@ define("result/table/table", [], function() {
           if (cell.options.colspan !== undefined && cell.options.colspan > 1) {
             cellAttributes.push('colspan="' + cell.options.colspan + '"');
           }
-          rowHtml += '<td' + (cellAttributes.length ? ' ' + cellAttributes.join(' ') : '') + '>' + cell.value + '</td>';
+          var tag = cell.options.header === undefined || !cell.options.header ? 'td' : 'th';
+          rowHtml += '<' + tag + (cellAttributes.length ? ' ' + cellAttributes.join(' ') : '') + '>' + cell.value + '</' + tag + '>';
         }));
         rowHtml = '<tr>' + rowHtml + '</tr>';
         html += rowHtml;

@@ -52,7 +52,7 @@ export class TableBodyRenderer {
                         let currentDimensionValues = mapUtils.clone(dimensionValues);
 
                         currentDimensionValues.set(currentDimensionId, dimensionValue);
-                        let tableCell = new TableCell(dimensionValue.caption);
+                        let tableCell = new TableCell(dimensionValue.caption, { header: true });
                         currentRow.addCell(tableCell);
                         let childCellsCount = getRows(rows, remainingDimensions, columnDimensions, subCells, currentDimensionValues, currentRow);
                         tableCell.setOption('rowspan', childCellsCount);
@@ -72,7 +72,8 @@ export class TableBodyRenderer {
     getHeaderCells() {
         return [
             new TableCell('', {
-                colspan: this.rowDimensions.length
+                colspan: this.rowDimensions.length,
+                header: true
             })
         ];
     }
