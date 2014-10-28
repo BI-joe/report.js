@@ -35,7 +35,8 @@
                     layout: {
                         type: 'graph',
                         labels: ['Year', 'Month'],
-                        datasets: ['Measures']
+                        datasets: ['Measures'],
+                        graphType: 'bar'
                     }
                 };
 
@@ -61,7 +62,7 @@
       </header>
       <section>
         <h1>
-          <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>ChartJS Line example</h1>
+          <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>ChartJS Bar example</h1>
 
           <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> reportjs.Renderer(),
     options = {
@@ -84,7 +85,8 @@
         layout: {
             type: <span class="hljs-string">'graph'</span>,
             labels: [<span class="hljs-string">'Year'</span>, <span class="hljs-string">'Month'</span>],
-            datasets: [<span class="hljs-string">'Measures'</span>]
+            datasets: [<span class="hljs-string">'Measures'</span>],
+            graphType: [<span class="hljs-string">'bar'</span>]
         }
     };
 
