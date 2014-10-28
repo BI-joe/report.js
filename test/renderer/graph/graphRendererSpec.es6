@@ -21,7 +21,7 @@ describe('TableBodyRenderer', function() {
             grid = factory.buildFromJson(gridData),
             renderer = new GraphRenderer(['d2'],['d']);
 
-        let expectedGraph = new Graph(['d11', 'd12'], [{ label: 'd21', data: [10, null] }, { label: 'd22', data: [8, 5] }]);
+        let expectedGraph = new Graph('line', ['d11', 'd12'], [{ label: 'd21', data: [10, null] }, { label: 'd22', data: [8, 5] }]);
 
         expect(renderer.render(grid)).toEqual(expectedGraph);
     });

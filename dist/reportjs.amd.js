@@ -1,3 +1,47 @@
+define("adapter/chartjsAdapter", [], function() {
+  "use strict";
+  var __moduleName = "adapter/chartjsAdapter";
+  var ChartjsAdapter = function ChartjsAdapter() {};
+  ($traceurRuntime.createClass)(ChartjsAdapter, {renderTo: function(element, graph) {
+      var getChartData = function(graph) {
+        return {
+          labels: graph.labels,
+          datasets: graph.datasets.map((function(dataset) {
+            dataset.fillColor = 'rgba(151,187,205,0.2)';
+            dataset.strokeColor = 'rgba(151,187,205,1)';
+            dataset.pointColor = 'rgba(151,187,205,1)';
+            dataset.pointStrokeColor = '#fff';
+            dataset.pointHighlightFill = '#fff';
+            dataset.pointHighlightStroke = 'rgba(151,187,205,1)';
+            return dataset;
+          }))
+        };
+      };
+      element.prepend('<canvas width="' + element.width() + '" height="400"></canvas>');
+      var context = element.find('canvas:first').get(0).getContext('2d'),
+          chart = new Chart(context);
+      switch (graph.graphType) {
+        case 'line':
+          chart.Line(getChartData(graph));
+          break;
+        case 'bar':
+          chart.Bar(getChartData(graph));
+          break;
+        case 'radar':
+          chart.Radar(getChartData(graph));
+          break;
+        default:
+          throw Error('Unknown graph type "' + graph.graphType + '"');
+      }
+    }}, {});
+  return {
+    get ChartjsAdapter() {
+      return ChartjsAdapter;
+    },
+    __esModule: true
+  };
+});
+
 define("data/cell", [], function() {
   "use strict";
   var __moduleName = "data/cell";
@@ -237,8 +281,10 @@ define("renderer/graph/graphRenderer", ['result/graph/graph'], function($__0) {
     $__0 = {default: $__0};
   var Graph = $__0.Graph;
   var GraphRenderer = function GraphRenderer(datasetsDimensions, labelsDimensions) {
+    var graphType = arguments[2] !== (void 0) ? arguments[2] : 'line';
     this.datasetsDimensions = datasetsDimensions;
     this.labelsDimensions = labelsDimensions;
+    this.graphType = graphType;
   };
   ($traceurRuntime.createClass)(GraphRenderer, {render: function(grid) {
       var datasetsDimensionId = 'dataset',
@@ -272,7 +318,7 @@ define("renderer/graph/graphRenderer", ['result/graph/graph'], function($__0) {
         }));
         datasets.push(dataset);
       }));
-      return new Graph(labels, datasets);
+      return new Graph(this.graphType, labels, datasets);
     }}, {});
   return {
     get GraphRenderer() {
@@ -479,7 +525,7 @@ define("renderer/table/tableRenderer", ['result/table/table', 'renderer/table/ta
   };
 });
 
-define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'renderer/graph/graphRenderer'], function($__0,$__2,$__4) {
+define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'renderer/graph/graphRenderer', 'adapter/chartjsAdapter'], function($__0,$__2,$__4,$__6) {
   "use strict";
   var __moduleName = "reportjs";
   if (!$__0 || !$__0.__esModule)
@@ -488,41 +534,30 @@ define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'rendere
     $__2 = {default: $__2};
   if (!$__4 || !$__4.__esModule)
     $__4 = {default: $__4};
+  if (!$__6 || !$__6.__esModule)
+    $__6 = {default: $__6};
   var GridFactory = $__0.GridFactory;
   var TableRenderer = $__2.TableRenderer;
   var GraphRenderer = $__4.GraphRenderer;
+  var ChartjsAdapter = $__6.ChartjsAdapter;
   var Renderer = function Renderer() {};
   ($traceurRuntime.createClass)(Renderer, {renderTo: function(element, options) {
-      var tableRenderer$__7,
-          table$__8;
-      var graphRenderer$__9,
-          graph$__10;
-      var context$__11,
-          chart$__12;
+      var tableRenderer$__9,
+          table$__10;
+      var graphRenderer$__11,
+          graph$__12,
+          adapter$__13;
       var gridFactory = new GridFactory(),
           grid = gridFactory.buildFromJson(options.data);
       if (options.layout.type === 'table') {
-        tableRenderer$__7 = new TableRenderer(options.layout.rows, options.layout.columns);
-        table$__8 = tableRenderer$__7.render(grid);
-        element.html(table$__8.getHtml());
+        tableRenderer$__9 = new TableRenderer(options.layout.rows, options.layout.columns);
+        table$__10 = tableRenderer$__9.render(grid);
+        element.html(table$__10.getHtml());
       } else if (options.layout.type === 'graph') {
-        graphRenderer$__9 = new GraphRenderer(options.layout.datasets, options.layout.labels);
-        graph$__10 = graphRenderer$__9.render(grid);
-        element.prepend('<canvas width="' + element.width() + '" height="400"></canvas>');
-        context$__11 = element.find('canvas:first').get(0).getContext('2d');
-        chart$__12 = new Chart(context$__11);
-        chart$__12.Line({
-          labels: graph$__10.labels,
-          datasets: graph$__10.datasets.map((function(dataset) {
-            dataset.fillColor = 'rgba(151,187,205,0.2)';
-            dataset.strokeColor = 'rgba(151,187,205,1)';
-            dataset.pointColor = 'rgba(151,187,205,1)';
-            dataset.pointStrokeColor = '#fff';
-            dataset.pointHighlightFill = '#fff';
-            dataset.pointHighlightStroke = 'rgba(151,187,205,1)';
-            return dataset;
-          }), {})
-        });
+        graphRenderer$__11 = new GraphRenderer(options.layout.datasets, options.layout.labels, options.layout.graphType);
+        graph$__12 = graphRenderer$__11.render(grid);
+        adapter$__13 = new ChartjsAdapter();
+        adapter$__13.renderTo(element, graph$__12);
       }
     }}, {});
   return {
@@ -536,9 +571,10 @@ define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'rendere
 define("result/graph/graph", [], function() {
   "use strict";
   var __moduleName = "result/graph/graph";
-  var Graph = function Graph() {
-    var labels = arguments[0] !== (void 0) ? arguments[0] : [];
-    var datasets = arguments[1] !== (void 0) ? arguments[1] : [];
+  var Graph = function Graph(graphType) {
+    var labels = arguments[1] !== (void 0) ? arguments[1] : [];
+    var datasets = arguments[2] !== (void 0) ? arguments[2] : [];
+    this.graphType = graphType;
     this.labels = labels;
     this.datasets = datasets;
   };
