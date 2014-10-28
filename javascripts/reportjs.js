@@ -2352,38 +2352,40 @@ define("data/grid", ['utils/maps'], function($__0) {
       var mapUtils = new Maps(),
           getSets = function(sets, dimensions, cells) {
             var set = arguments[3] !== (void 0) ? arguments[3] : new Map();
+            var $__2 = this;
             if (dimensions.length === 0) {
               sets.push(set);
               return;
             }
             var currentDimension = _.first(dimensions),
                 remainingDimensions = _.without(dimensions, currentDimension);
-            this.getDimensionValues(currentDimension).forEach(function(dimensionValue) {
-              var currentSet$__3;
-              var subCells = _.filter(cells, function(cell) {
+            this.getDimensionValues(currentDimension).forEach((function(dimensionValue) {
+              var currentSet$__4;
+              var subCells = _.filter(cells, (function(cell) {
                 return cell.getDimensionValue(currentDimension) === dimensionValue;
-              });
+              }));
               if (subCells.length) {
-                currentSet$__3 = mapUtils.clone(set);
-                currentSet$__3.set(currentDimension.id, dimensionValue);
-                getSets.call(this, sets, remainingDimensions, subCells, currentSet$__3);
+                currentSet$__4 = mapUtils.clone(set);
+                currentSet$__4.set(currentDimension.id, dimensionValue);
+                getSets.call($__2, sets, remainingDimensions, subCells, currentSet$__4);
               }
-            }, this);
+            }), this);
           };
       var sets = [];
       getSets.call(this, sets, dimensions, this.cells);
       return sets;
     },
     getCell: function(dimensionValues) {
-      return this.cells.find(function(cell) {
+      var $__2 = this;
+      return this.cells.find((function(cell) {
         var found = true;
-        dimensionValues.forEach(function(dimensionValue, dimensionId) {
-          if (dimensionValue.id !== cell.getDimensionValue(this.getDimension(dimensionId)).id) {
+        dimensionValues.forEach((function(dimensionValue, dimensionId) {
+          if (dimensionValue.id !== cell.getDimensionValue($__2.getDimension(dimensionId)).id) {
             found = false;
           }
-        }, this);
+        }), $__2);
         return found;
-      }, this);
+      }), this);
     }
   }, {});
   return {
@@ -2417,26 +2419,26 @@ define("data/gridFactory", ['data/dimension', 'data/dimensionValue', 'data/cell'
           dimensionPositions = new Map(),
           dimensionValuePositions = new Map();
       ;
-      gridData.dimensions.forEach(function(dimension, index) {
+      gridData.dimensions.forEach((function(dimension, index) {
         dimensions.set(dimension.id, new Dimension(dimension.id, dimension.caption));
         dimensionPositions.set(dimension.id, index);
         dimensionValuesByDimensions.set(dimension.id, new Map());
         dimensionValuePositions.set(dimension.id, new Map());
-      });
-      dimensionPositions.forEach(function(index, dimensionId) {
-        gridData.dimensionValues[$traceurRuntime.toProperty(index)].forEach(function(dimensionValue, dimensionValueIndex) {
+      }));
+      dimensionPositions.forEach((function(index, dimensionId) {
+        gridData.dimensionValues[$traceurRuntime.toProperty(index)].forEach((function(dimensionValue, dimensionValueIndex) {
           dimensionValuesByDimensions.get(dimensionId).set(dimensionValue.id, new DimensionValue(dimensionValue.id, dimensionValue.caption));
           dimensionValuePositions.get(dimensionId).set(dimensionValueIndex, dimensionValue.id);
-        });
-      });
-      gridData.cells.forEach(function(cell) {
+        }));
+      }));
+      gridData.cells.forEach((function(cell) {
         var cellDimensionValues = new Map();
-        dimensionPositions.forEach(function(index, dimensionId) {
+        dimensionPositions.forEach((function(index, dimensionId) {
           var dimensionValue = dimensionValuesByDimensions.get(dimensionId).get(dimensionValuePositions.get(dimensionId).get(cell.dimensionValues[$traceurRuntime.toProperty(index)]));
           cellDimensionValues.set(dimensionId, dimensionValue);
-        });
+        }));
         cells.push(new Cell(cellDimensionValues, cell.value));
-      });
+      }));
       return new Grid(dimensions, dimensionValuesByDimensions, cells);
     }}, {});
   return {
@@ -2454,9 +2456,9 @@ define("output/outputHtml", [], function() {
   ($traceurRuntime.createClass)(OutputHtml, {getHtml: function(result) {
       var getHtmlForTable = function(table) {
         var html = '';
-        table.rows.forEach(function(row) {
+        table.rows.forEach((function(row) {
           var rowHtml = '';
-          row.cells.forEach(function(cell) {
+          row.cells.forEach((function(cell) {
             var cellAttributes = [];
             if (cell.options.rowspan !== undefined && cell.options.rowspan > 1) {
               cellAttributes.push('rowspan="' + cell.options.rowspan + '"');
@@ -2465,16 +2467,16 @@ define("output/outputHtml", [], function() {
               cellAttributes.push('colspan="' + cell.options.colspan + '"');
             }
             rowHtml += '<td' + (cellAttributes.length ? ' ' + cellAttributes.join(' ') : '') + '>' + cell.value + '</td>';
-          });
+          }));
           rowHtml = '<tr>' + rowHtml + '</tr>';
           html += rowHtml;
-        });
+        }));
         return '<table>' + html + '</table>';
       },
           htmls = [];
-      result.results.forEach(function(table) {
+      result.results.forEach((function(table) {
         htmls.push(getHtmlForTable(table));
-      });
+      }));
       return htmls.join();
     }}, {});
   return {
@@ -2505,10 +2507,10 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
     render: function(grid) {
       var mapUtils = new Maps(),
           getBodyCells = function(currentRow, columnDimensions, cells, dimensionValues) {
-            var colSets = grid.getDimenionValuesSets(_.map(columnDimensions, function(dimension) {
+            var colSets = grid.getDimenionValuesSets(_.map(columnDimensions, (function(dimension) {
               return grid.getDimension(dimension);
-            }));
-            colSets.forEach(function(set) {
+            })));
+            colSets.forEach((function(set) {
               var cellSet = mapUtils.sum(dimensionValues, set);
               var cell = grid.getCell(cellSet);
               if (cell) {
@@ -2516,7 +2518,7 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
               } else {
                 currentRow.addCell(new TableCell(''));
               }
-            });
+            }));
           },
           getRows = function(rows, rowDimensions, columnDimensions, cells) {
             var dimensionValues = arguments[4] !== (void 0) ? arguments[4] : new Map();
@@ -2530,14 +2532,14 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
                 remainingDimensions = _.without(rowDimensions, currentDimensionId),
                 countCells = 0,
                 first = true;
-            grid.getDimensionValues(currentDimension).forEach(function(dimensionValue) {
+            grid.getDimensionValues(currentDimension).forEach((function(dimensionValue) {
               var currentRow$__7;
               var currentDimensionValues$__8;
               var tableCell$__9;
               var childCellsCount$__10;
-              var subCells = _.filter(cells, function(cell) {
+              var subCells = _.filter(cells, (function(cell) {
                 return cell.getDimensionValue(currentDimension) === dimensionValue;
-              });
+              }));
               if (subCells.length) {
                 currentRow$__7 = row;
                 if (row === null || !first) {
@@ -2553,7 +2555,7 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
                 tableCell$__9.setOption('rowspan', childCellsCount$__10);
                 countCells += childCellsCount$__10;
               }
-            });
+            }));
             return countCells;
           };
       var rows = [];
@@ -2607,12 +2609,12 @@ define("renderer/table/tableHeaderRenderer", ['result/table/tableRow', 'result/t
               currentRow = new TableRow();
               rows.set(currentDimensionId, currentRow);
             }
-            grid.getDimensionValues(currentDimension).forEach(function(dimensionValue) {
+            grid.getDimensionValues(currentDimension).forEach((function(dimensionValue) {
               var currentDimensionValues$__7;
               var childCellsCount$__8;
-              var subCells = _.filter(cells, function(cell) {
+              var subCells = _.filter(cells, (function(cell) {
                 return cell.getDimensionValue(currentDimension) === dimensionValue;
-              });
+              }));
               if (subCells.length) {
                 currentDimensionValues$__7 = mapUtils.clone(dimensionValues);
                 currentDimensionValues$__7.set(currentDimensionId, dimensionValue);
@@ -2620,7 +2622,7 @@ define("renderer/table/tableHeaderRenderer", ['result/table/tableRow', 'result/t
                 currentRow.addCell(new TableCell(dimensionValue.caption, {colspan: childCellsCount$__8}));
                 countCells += childCellsCount$__8;
               }
-            });
+            }));
             return countCells;
           };
       var rowsMap = new Map();
@@ -2629,10 +2631,10 @@ define("renderer/table/tableHeaderRenderer", ['result/table/tableRow', 'result/t
       } else {
         getHeaderRows(rowsMap, this.columnDimensions, grid.cells);
         rows$__9 = [];
-        rowsMap.forEach(function(row) {
+        rowsMap.forEach((function(row) {
           row.cells = headerCells.concat(row.cells);
           rows$__9.push(row);
-        });
+        }));
         return rows$__9;
       }
     }}, {});
@@ -2666,12 +2668,12 @@ define("renderer/table/tableRenderer", ['result/table/table', 'renderer/table/ta
           tableBodyRenderer = new TableBodyRenderer(this.rowDimensions, this.columnDimensions),
           headerRows = tableHeaderRenderer.render(grid, tableBodyRenderer.getHeaderCells()),
           bodyRows = tableBodyRenderer.render(grid);
-      headerRows.forEach(function(row) {
+      headerRows.forEach((function(row) {
         table.addRow(row);
-      });
-      bodyRows.forEach(function(row) {
+      }));
+      bodyRows.forEach((function(row) {
         table.addRow(row);
-      });
+      }));
       return table;
     }}, {});
   return {
@@ -2697,19 +2699,20 @@ define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'output/
   var TableRenderer = $__2.TableRenderer;
   var OutputHtml = $__4.OutputHtml;
   var Result = $__6.Result;
-  ;
+  var Renderer = function Renderer() {};
+  ($traceurRuntime.createClass)(Renderer, {render: function(options) {
+      var gridFactory = new GridFactory(),
+          grid = gridFactory.buildFromJson(options.data);
+      var tableRenderer = new TableRenderer(options.rows, options.columns),
+          table = tableRenderer.render(grid),
+          result = new Result();
+      result.addResult(table);
+      var outputHtml = new OutputHtml();
+      return outputHtml.getHtml(result);
+    }}, {});
   return {
-    get GridFactory() {
-      return GridFactory;
-    },
-    get TableRenderer() {
-      return TableRenderer;
-    },
-    get OutputHtml() {
-      return OutputHtml;
-    },
-    get Result() {
-      return Result;
+    get Renderer() {
+      return Renderer;
     },
     __esModule: true
   };
@@ -2790,23 +2793,23 @@ define("result/table/tableRow", [], function() {
 define("utils/maps", [], function() {
   "use strict";
   var __moduleName = "utils/maps";
-  var Maps = function Maps(dimensionValues, value) {};
+  var Maps = function Maps() {};
   ($traceurRuntime.createClass)(Maps, {
     clone: function(map) {
       var newMap = new Map();
-      map.forEach(function(value, key) {
+      map.forEach((function(value, key) {
         newMap.set(key, value);
-      });
+      }));
       return newMap;
     },
     sum: function(map1, map2) {
       var newMap = new Map();
-      map1.forEach(function(value, key) {
+      map1.forEach((function(value, key) {
         newMap.set(key, value);
-      });
-      map2.forEach(function(value, key) {
+      }));
+      map2.forEach((function(value, key) {
         newMap.set(key, value);
-      });
+      }));
       return newMap;
     }
   }, {});
