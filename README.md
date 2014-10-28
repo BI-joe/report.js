@@ -6,7 +6,7 @@ Report.js
 
 Dependancies
 ------------
-Report.js depend on [jQuery](http://jquery.com), [Lodash](http://lodash.com) and [Chart.js](http://chartjs.org).
+Report.js depend on [jQuery](http://jquery.com) and [Chart.js](http://chartjs.org).
 Don't forget to add them to your page.
 
 Usage

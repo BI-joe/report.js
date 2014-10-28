@@ -16,9 +16,9 @@ export class TableHeaderRenderer {
                     return 1;
                 }
 
-                let currentDimensionId     = _.first(dimensions),
+                let currentDimensionId     = dimensions[0],
                     currentDimension       = grid.getDimension(currentDimensionId),
-                    remainingDimensions    = _.without(dimensions, currentDimensionId),
+                    remainingDimensions    = dimensions.slice(1),
                     countCells             = 0,
                     currentRow;
                 if (rows.has(currentDimensionId)) {

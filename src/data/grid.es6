@@ -36,11 +36,11 @@ export class Grid {
                     return;
                 }
 
-                let currentDimension     = _.first(dimensions),
-                    remainingDimensions    = _.without(dimensions, currentDimension);
+                let currentDimension     = dimensions[0],
+                    remainingDimensions    = dimensions.slice(1);
 
                 this.getDimensionValues(currentDimension).forEach(dimensionValue => {
-                    let subCells = _.filter(cells, cell => cell.getDimensionValue(currentDimension) === dimensionValue);
+                    let subCells = cells.filter(cell => cell.getDimensionValue(currentDimension) === dimensionValue);
                     if (subCells.length) {
                         let currentSet = mapUtils.clone(set);
                         currentSet.set(currentDimension.id, dimensionValue);

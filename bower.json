@@ -16,7 +16,6 @@
     "Gruntfile.js"
   ],
   "dependencies": {
-    "lodash": "~2.4.1",
     "jquery": "~2.1.1",
     "chartjs": "~0.2.0"
   }

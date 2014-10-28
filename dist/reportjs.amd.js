@@ -138,11 +138,11 @@ define("data/grid", ['utils/maps', 'data/dimension', 'data/dimensionValue', 'dat
               sets.push(set);
               return;
             }
-            var currentDimension = _.first(dimensions),
-                remainingDimensions = _.without(dimensions, currentDimension);
+            var currentDimension = dimensions[0],
+                remainingDimensions = dimensions.slice(1);
             this.getDimensionValues(currentDimension).forEach((function(dimensionValue) {
               var currentSet$__10;
-              var subCells = _.filter(cells, (function(cell) {
+              var subCells = cells.filter((function(cell) {
                 return cell.getDimensionValue(currentDimension) === dimensionValue;
               }));
               if (subCells.length) {
@@ -348,7 +348,7 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
     render: function(grid) {
       var mapUtils = new Maps(),
           getBodyCells = function(currentRow, columnDimensions, cells, dimensionValues) {
-            var colSets = grid.getDimenionValuesSets(_.map(columnDimensions, (function(dimension) {
+            var colSets = grid.getDimenionValuesSets(columnDimensions.map((function(dimension) {
               return grid.getDimension(dimension);
             })));
             colSets.forEach((function(set) {
@@ -368,9 +368,9 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
               getBodyCells(row, columnDimensions, cells, dimensionValues);
               return 1;
             }
-            var currentDimensionId = _.first(rowDimensions),
+            var currentDimensionId = rowDimensions[0],
                 currentDimension = grid.getDimension(currentDimensionId),
-                remainingDimensions = _.without(rowDimensions, currentDimensionId),
+                remainingDimensions = rowDimensions.slice(1),
                 countCells = 0,
                 first = true;
             grid.getDimensionValues(currentDimension).forEach((function(dimensionValue) {
@@ -378,7 +378,7 @@ define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/tab
               var currentDimensionValues$__8;
               var tableCell$__9;
               var childCellsCount$__10;
-              var subCells = _.filter(cells, (function(cell) {
+              var subCells = cells.filter((function(cell) {
                 return cell.getDimensionValue(currentDimension) === dimensionValue;
               }));
               if (subCells.length) {
@@ -442,9 +442,9 @@ define("renderer/table/tableHeaderRenderer", ['result/table/tableRow', 'result/t
             if (dimensions.length === 0) {
               return 1;
             }
-            var currentDimensionId = _.first(dimensions),
+            var currentDimensionId = dimensions[0],
                 currentDimension = grid.getDimension(currentDimensionId),
-                remainingDimensions = _.without(dimensions, currentDimensionId),
+                remainingDimensions = dimensions.slice(1),
                 countCells = 0,
                 currentRow;
             if (rows.has(currentDimensionId)) {
@@ -456,7 +456,7 @@ define("renderer/table/tableHeaderRenderer", ['result/table/tableRow', 'result/t
             grid.getDimensionValues(currentDimension).forEach((function(dimensionValue) {
               var currentDimensionValues$__7;
               var childCellsCount$__8;
-              var subCells = _.filter(cells, (function(cell) {
+              var subCells = cells.filter((function(cell) {
                 return cell.getDimensionValue(currentDimension) === dimensionValue;
               }));
               if (subCells.length) {
