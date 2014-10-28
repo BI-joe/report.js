@@ -24,6 +24,7 @@
         "expect": false,
         "_": false,
         "requirejs": false,
-        "window": false
+        "window": false,
+        "Chart": false
     }
 }

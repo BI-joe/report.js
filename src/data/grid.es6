@@ -1,4 +1,7 @@
-import {Maps} from 'utils/maps';
+import {Maps}           from 'utils/maps';
+import {Dimension}      from 'data/dimension';
+import {DimensionValue} from 'data/dimensionValue';
+import {Cell}           from 'data/cell';
 
 export class Grid {
 
@@ -63,5 +66,49 @@ export class Grid {
 
             return found;
         }, this);
+    }
+
+    mergeDimensions(dimensions, newDimensionId) {
+        // New Dimensions
+        let newDimension = new Dimension(newDimensionId, dimensions.map(dimension => dimension.caption).join(' - ')),
+            newDimensions = new Map();
+        this.dimensions.forEach(dimension => {
+            if (dimensions.indexOf(dimension) === -1) {
+                newDimensions.set(dimension.id, dimension);
+            }
+        });
+        newDimensions.set(newDimensionId, newDimension);
+
+        // New dimension Values
+        let newDimensionValues = new Map();
+        this.dimensionValues.forEach((dimensionValues, dimensionId) => {
+            if (dimensions.find(dim => dim.id === dimensionId) === undefined) {
+                newDimensionValues.set(dimensionId, dimensionValues);
+            }
+        });
+        newDimensionValues.set(newDimensionId, new Map());
+
+        // Cells
+        let newCells = [];
+        this.cells.forEach(cell => {
+            let newCellDimensionValues = new Map(),
+                dimensionValuesToMerge = [];
+            cell.dimensionValues.forEach((dimensionValue, dimensionId) => {
+                if (dimensions.find(dim => dim.id === dimensionId) === undefined) {
+                    newCellDimensionValues.set(dimensionId, dimensionValue);
+                } else {
+                    dimensionValuesToMerge.push(dimensionValue);
+                }
+            });
+            let newCellDimensionValue = new DimensionValue(
+                dimensionValuesToMerge.map(dimensionValue => dimensionValue.id).join('-'),
+                dimensionValuesToMerge.map(dimensionValue => dimensionValue.caption).join(' - ')
+            );
+            newCellDimensionValues.set(newDimensionId, newCellDimensionValue);
+            newDimensionValues.get(newDimensionId).set(newCellDimensionValue.id, newCellDimensionValue);
+            newCells.push(new Cell(newCellDimensionValues, cell.value));
+        });
+
+        return new Grid(newDimensions, newDimensionValues, newCells);
     }
 }

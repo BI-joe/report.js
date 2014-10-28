@@ -2324,17 +2324,27 @@ define("data/dimensionValue", [], function() {
   };
 });
 
-define("data/grid", ['utils/maps'], function($__0) {
+define("data/grid", ['utils/maps', 'data/dimension', 'data/dimensionValue', 'data/cell'], function($__0,$__2,$__4,$__6) {
   "use strict";
   var __moduleName = "data/grid";
   if (!$__0 || !$__0.__esModule)
     $__0 = {default: $__0};
+  if (!$__2 || !$__2.__esModule)
+    $__2 = {default: $__2};
+  if (!$__4 || !$__4.__esModule)
+    $__4 = {default: $__4};
+  if (!$__6 || !$__6.__esModule)
+    $__6 = {default: $__6};
   var Maps = $__0.Maps;
+  var Dimension = $__2.Dimension;
+  var DimensionValue = $__4.DimensionValue;
+  var Cell = $__6.Cell;
   var Grid = function Grid(dimensions, dimensionValues, cells) {
     this.cells = cells;
     this.dimensions = dimensions;
     this.dimensionValues = dimensionValues;
   };
+  var $Grid = Grid;
   ($traceurRuntime.createClass)(Grid, {
     getDimension: function(dimensionId) {
       if (!this.dimensions.has(dimensionId)) {
@@ -2352,7 +2362,7 @@ define("data/grid", ['utils/maps'], function($__0) {
       var mapUtils = new Maps(),
           getSets = function(sets, dimensions, cells) {
             var set = arguments[3] !== (void 0) ? arguments[3] : new Map();
-            var $__2 = this;
+            var $__8 = this;
             if (dimensions.length === 0) {
               sets.push(set);
               return;
@@ -2360,14 +2370,14 @@ define("data/grid", ['utils/maps'], function($__0) {
             var currentDimension = _.first(dimensions),
                 remainingDimensions = _.without(dimensions, currentDimension);
             this.getDimensionValues(currentDimension).forEach((function(dimensionValue) {
-              var currentSet$__4;
+              var currentSet$__10;
               var subCells = _.filter(cells, (function(cell) {
                 return cell.getDimensionValue(currentDimension) === dimensionValue;
               }));
               if (subCells.length) {
-                currentSet$__4 = mapUtils.clone(set);
-                currentSet$__4.set(currentDimension.id, dimensionValue);
-                getSets.call($__2, sets, remainingDimensions, subCells, currentSet$__4);
+                currentSet$__10 = mapUtils.clone(set);
+                currentSet$__10.set(currentDimension.id, dimensionValue);
+                getSets.call($__8, sets, remainingDimensions, subCells, currentSet$__10);
               }
             }), this);
           };
@@ -2376,16 +2386,60 @@ define("data/grid", ['utils/maps'], function($__0) {
       return sets;
     },
     getCell: function(dimensionValues) {
-      var $__2 = this;
+      var $__8 = this;
       return this.cells.find((function(cell) {
         var found = true;
         dimensionValues.forEach((function(dimensionValue, dimensionId) {
-          if (dimensionValue.id !== cell.getDimensionValue($__2.getDimension(dimensionId)).id) {
+          if (dimensionValue.id !== cell.getDimensionValue($__8.getDimension(dimensionId)).id) {
             found = false;
           }
-        }), $__2);
+        }), $__8);
         return found;
       }), this);
+    },
+    mergeDimensions: function(dimensions, newDimensionId) {
+      var newDimension = new Dimension(newDimensionId, dimensions.map((function(dimension) {
+        return dimension.caption;
+      })).join(' - ')),
+          newDimensions = new Map();
+      this.dimensions.forEach((function(dimension) {
+        if (dimensions.indexOf(dimension) === -1) {
+          newDimensions.set(dimension.id, dimension);
+        }
+      }));
+      newDimensions.set(newDimensionId, newDimension);
+      var newDimensionValues = new Map();
+      this.dimensionValues.forEach((function(dimensionValues, dimensionId) {
+        if (dimensions.find((function(dim) {
+          return dim.id === dimensionId;
+        })) === undefined) {
+          newDimensionValues.set(dimensionId, dimensionValues);
+        }
+      }));
+      newDimensionValues.set(newDimensionId, new Map());
+      var newCells = [];
+      this.cells.forEach((function(cell) {
+        var newCellDimensionValues = new Map(),
+            dimensionValuesToMerge = [];
+        cell.dimensionValues.forEach((function(dimensionValue, dimensionId) {
+          if (dimensions.find((function(dim) {
+            return dim.id === dimensionId;
+          })) === undefined) {
+            newCellDimensionValues.set(dimensionId, dimensionValue);
+          } else {
+            dimensionValuesToMerge.push(dimensionValue);
+          }
+        }));
+        var newCellDimensionValue = new DimensionValue(dimensionValuesToMerge.map((function(dimensionValue) {
+          return dimensionValue.id;
+        })).join('-'), dimensionValuesToMerge.map((function(dimensionValue) {
+          return dimensionValue.caption;
+        })).join(' - '));
+        newCellDimensionValues.set(newDimensionId, newCellDimensionValue);
+        newDimensionValues.get(newDimensionId).set(newCellDimensionValue.id, newCellDimensionValue);
+        newCells.push(new Cell(newCellDimensionValues, cell.value));
+      }));
+      return new $Grid(newDimensions, newDimensionValues, newCells);
     }
   }, {});
   return {
@@ -2449,39 +2503,53 @@ define("data/gridFactory", ['data/dimension', 'data/dimensionValue', 'data/cell'
   };
 });
 
-define("output/outputHtml", [], function() {
+define("renderer/graph/graphRenderer", ['result/graph/graph'], function($__0) {
   "use strict";
-  var __moduleName = "output/outputHtml";
-  var OutputHtml = function OutputHtml() {};
-  ($traceurRuntime.createClass)(OutputHtml, {getHtml: function(result) {
-      var getHtmlForTable = function(table) {
-        var html = '';
-        table.rows.forEach((function(row) {
-          var rowHtml = '';
-          row.cells.forEach((function(cell) {
-            var cellAttributes = [];
-            if (cell.options.rowspan !== undefined && cell.options.rowspan > 1) {
-              cellAttributes.push('rowspan="' + cell.options.rowspan + '"');
-            }
-            if (cell.options.colspan !== undefined && cell.options.colspan > 1) {
-              cellAttributes.push('colspan="' + cell.options.colspan + '"');
-            }
-            rowHtml += '<td' + (cellAttributes.length ? ' ' + cellAttributes.join(' ') : '') + '>' + cell.value + '</td>';
-          }));
-          rowHtml = '<tr>' + rowHtml + '</tr>';
-          html += rowHtml;
-        }));
-        return '<table>' + html + '</table>';
-      },
-          htmls = [];
-      result.results.forEach((function(table) {
-        htmls.push(getHtmlForTable(table));
+  var __moduleName = "renderer/graph/graphRenderer";
+  if (!$__0 || !$__0.__esModule)
+    $__0 = {default: $__0};
+  var Graph = $__0.Graph;
+  var GraphRenderer = function GraphRenderer(datasetsDimensions, labelsDimensions) {
+    this.datasetsDimensions = datasetsDimensions;
+    this.labelsDimensions = labelsDimensions;
+  };
+  ($traceurRuntime.createClass)(GraphRenderer, {render: function(grid) {
+      var datasetsDimensionId = 'dataset',
+          labelsDimensionId = 'label',
+          mergedGrid = grid.mergeDimensions(this.datasetsDimensions.map((function(dimension) {
+            return grid.getDimension(dimension);
+          })), datasetsDimensionId);
+      mergedGrid = mergedGrid.mergeDimensions(this.labelsDimensions.map((function(dimension) {
+        return grid.getDimension(dimension);
+      })), labelsDimensionId);
+      var labels = [];
+      mergedGrid.getDimensionValues(mergedGrid.getDimension(labelsDimensionId)).forEach((function(labelDV) {
+        labels.push(labelDV.caption);
       }));
-      return htmls.join();
+      var datasets = [];
+      mergedGrid.getDimensionValues(mergedGrid.getDimension(datasetsDimensionId)).forEach((function(datasetDV) {
+        var dataset = {
+          label: datasetDV.caption,
+          data: []
+        };
+        mergedGrid.getDimensionValues(mergedGrid.getDimension(labelsDimensionId)).forEach((function(labelDV) {
+          var cellDimensionValues = new Map();
+          cellDimensionValues.set(datasetsDimensionId, datasetDV);
+          cellDimensionValues.set(labelsDimensionId, labelDV);
+          var cell = mergedGrid.getCell(cellDimensionValues);
+          if (cell) {
+            dataset.data.push(cell.value);
+          } else {
+            dataset.data.push(null);
+          }
+        }));
+        datasets.push(dataset);
+      }));
+      return new Graph(labels, datasets);
     }}, {});
   return {
-    get OutputHtml() {
-      return OutputHtml;
+    get GraphRenderer() {
+      return GraphRenderer;
     },
     __esModule: true
   };
@@ -2684,7 +2752,7 @@ define("renderer/table/tableRenderer", ['result/table/table', 'renderer/table/ta
   };
 });
 
-define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'output/outputHtml', 'result/result'], function($__0,$__2,$__4,$__6) {
+define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'renderer/graph/graphRenderer'], function($__0,$__2,$__4) {
   "use strict";
   var __moduleName = "reportjs";
   if (!$__0 || !$__0.__esModule)
@@ -2693,26 +2761,58 @@ define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'output/
     $__2 = {default: $__2};
   if (!$__4 || !$__4.__esModule)
     $__4 = {default: $__4};
-  if (!$__6 || !$__6.__esModule)
-    $__6 = {default: $__6};
   var GridFactory = $__0.GridFactory;
   var TableRenderer = $__2.TableRenderer;
-  var OutputHtml = $__4.OutputHtml;
-  var Result = $__6.Result;
+  var GraphRenderer = $__4.GraphRenderer;
   var Renderer = function Renderer() {};
-  ($traceurRuntime.createClass)(Renderer, {render: function(options) {
+  ($traceurRuntime.createClass)(Renderer, {renderTo: function(element, options) {
+      var tableRenderer$__7,
+          table$__8;
+      var graphRenderer$__9,
+          graph$__10;
+      var context$__11,
+          chart$__12;
       var gridFactory = new GridFactory(),
           grid = gridFactory.buildFromJson(options.data);
-      var tableRenderer = new TableRenderer(options.rows, options.columns),
-          table = tableRenderer.render(grid),
-          result = new Result();
-      result.addResult(table);
-      var outputHtml = new OutputHtml();
-      return outputHtml.getHtml(result);
+      if (options.layout.type === 'table') {
+        tableRenderer$__7 = new TableRenderer(options.layout.rows, options.layout.columns);
+        table$__8 = tableRenderer$__7.render(grid);
+        element.html(table$__8.getHtml());
+      } else if (options.layout.type === 'graph') {
+        graphRenderer$__9 = new GraphRenderer(options.layout.datasets, options.layout.labels);
+        graph$__10 = graphRenderer$__9.render(grid);
+        element.prepend('<canvas width="' + element.width() + '" height="400"></canvas>');
+        context$__11 = element.find('canvas:first').get(0).getContext('2d');
+        chart$__12 = new Chart(context$__11);
+        chart$__12.Line({
+          labels: graph$__10.labels,
+          datasets: graph$__10.datasets
+        });
+      }
     }}, {});
   return {
     get Renderer() {
       return Renderer;
+    },
+    __esModule: true
+  };
+});
+
+define("result/graph/graph", [], function() {
+  "use strict";
+  var __moduleName = "result/graph/graph";
+  var Graph = function Graph() {
+    var labels = arguments[0] !== (void 0) ? arguments[0] : [];
+    var datasets = arguments[1] !== (void 0) ? arguments[1] : [];
+    this.labels = labels;
+    this.datasets = datasets;
+  };
+  ($traceurRuntime.createClass)(Graph, {addDataset: function(dataset) {
+      this.datasets.push(dataset);
+    }}, {});
+  return {
+    get Graph() {
+      return Graph;
     },
     __esModule: true
   };
@@ -2742,9 +2842,30 @@ define("result/table/table", [], function() {
     var rows = arguments[0] !== (void 0) ? arguments[0] : [];
     this.rows = rows;
   };
-  ($traceurRuntime.createClass)(Table, {addRow: function(row) {
+  ($traceurRuntime.createClass)(Table, {
+    addRow: function(row) {
       this.rows.push(row);
-    }}, {});
+    },
+    getHtml: function() {
+      var html = '';
+      this.rows.forEach((function(row) {
+        var rowHtml = '';
+        row.cells.forEach((function(cell) {
+          var cellAttributes = [];
+          if (cell.options.rowspan !== undefined && cell.options.rowspan > 1) {
+            cellAttributes.push('rowspan="' + cell.options.rowspan + '"');
+          }
+          if (cell.options.colspan !== undefined && cell.options.colspan > 1) {
+            cellAttributes.push('colspan="' + cell.options.colspan + '"');
+          }
+          rowHtml += '<td' + (cellAttributes.length ? ' ' + cellAttributes.join(' ') : '') + '>' + cell.value + '</td>';
+        }));
+        rowHtml = '<tr>' + rowHtml + '</tr>';
+        html += rowHtml;
+      }));
+      return '<table>' + html + '</table>';
+    }
+  }, {});
   return {
     get Table() {
       return Table;

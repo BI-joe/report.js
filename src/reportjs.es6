@@ -1,22 +1,29 @@
 import {GridFactory} from 'data/gridFactory';
 import {TableRenderer} from 'renderer/table/tableRenderer';
-import {OutputHtml} from 'output/outputHtml';
-import {Result} from 'result/result';
+import {GraphRenderer} from 'renderer/graph/graphRenderer';
 
 export class Renderer {
 
-    render(options) {
+    renderTo(element, options) {
         let gridFactory = new GridFactory(),
             grid = gridFactory.buildFromJson(options.data);
 
-        let tableRenderer = new TableRenderer(options.rows, options.columns),
-            table = tableRenderer.render(grid),
-            result = new Result();
-        result.addResult(table);
+        if (options.layout.type === 'table') {
+            let tableRenderer = new TableRenderer(options.layout.rows, options.layout.columns),
+                table = tableRenderer.render(grid);
+                element.html(table.getHtml());
+        } else if (options.layout.type === 'graph') {
+            let graphRenderer = new GraphRenderer(options.layout.datasets, options.layout.labels),
+                graph = graphRenderer.render(grid);
+            element.prepend('<canvas width="'+element.width()+'" height="400"></canvas>');
+            let context = element.find('canvas:first').get(0).getContext('2d'),
+                chart = new Chart(context);
 
-        let outputHtml = new OutputHtml();
-
-        return outputHtml.getHtml(result);
+            chart.Line({
+                labels: graph.labels,
+                datasets: graph.datasets
+            });
+        }
     }
 
 }

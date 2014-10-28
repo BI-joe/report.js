@@ -10,4 +10,23 @@ describe('Table', function() {
         table.addRow(row);
         expect(table.rows).toEqual([row]);
     });
+
+    it('getHtml', function() {
+        let headerCell = new TableCell('', { colspan: 1}),
+            headerCell2 = new TableCell('d11', { colspan: 1}),
+            headerCell3 = new TableCell('d12', { colspan: 1}),
+            cell = new TableCell('d21', { rowspan: 1 }),
+            cell2 = new TableCell(10),
+            cell3 = new TableCell(''),
+            cell4 = new TableCell('d22', { rowspan: 1 }),
+            cell5 = new TableCell(8),
+            cell6 = new TableCell(5),
+            headerRow = new TableRow([headerCell, headerCell2, headerCell3]),
+            row = new TableRow([cell, cell2, cell3]),
+            row2 = new TableRow([cell4, cell5, cell6]),
+            rows = [headerRow, row, row2],
+            table = new Table(rows);
+
+        expect(table.getHtml()).toEqual('<table><tr><td></td><td>d11</td><td>d12</td></tr><tr><td>d21</td><td>10</td><td></td></tr><tr><td>d22</td><td>8</td><td>5</td></tr></table>');
+    });
 });

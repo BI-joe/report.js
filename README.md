@@ -4,40 +4,39 @@ Report.js
 [![Build Status](https://travis-ci.org/youknowriad/report.js.svg)](https://travis-ci.org/youknowriad/report.js)
 
 
+Dependancies
+------------
+Report.js depend on [jQuery](http://jquery.com), [Lodash](http://lodash.com) and [Chart.js](http://chartjs.org).
+Don't forget to add them to your page.
+
 Usage
 -----
 
 ```javascript
-import {GridFactory} from 'data/gridFactory';
-import {TableRenderer} from 'data/tableRenderer';
-import {OutputHtml} from 'output/outputHtml';
-import {Result} from 'result/result';
+import {Renderer} from 'reportjs';
 
-// Building the grid
-let gridFactory = new GridFactory(),
-    grid = gridFactory.buildFromJson({
-        dimensions: [{ id: 'Measures'}, { id: 'Year' }],
-        dimensionValues: [
-            [{ id: 'count', caption: 'My Count' }, { id: 'sum', caption: 'My Sum' }],
-            [{ id: '2013' }, { id: '2014' }]
-        ],
-        cells: [
-            {value: 10, dimensionValues: [0, 0]},
-            {value: 20, dimensionValues: [1, 1]},
-            {value: 15, dimensionValues: [0, 1]}
-        ]
-    });
+let renderer = new Renderer(),
+    options = {
+        data: {
+            dimensions: [{ id: 'Measures'}, { id: 'Year' }],
+            dimensionValues: [
+                [{ id: 'count', caption: 'My Count' }, { id: 'sum', caption: 'My Sum' }],
+                [{ id: '2013' }, { id: '2014' }]
+            ],
+            cells: [
+                {value: 10, dimensionValues: [0, 0]},
+                {value: 20, dimensionValues: [1, 1]},
+                {value: 15, dimensionValues: [0, 1]}
+            ]
+        },
+        layout: {
+            type: 'table',
+            rows: ['Measures'],
+            columns: ['Measures', 'Category']
+        }
+    };
 
-// Rendering the grid
-let tableRenderer = new TableRenderer(['Year'], ['Measures']),
-    table = tableRenderer.render(grid),
-    result = new Result();
-result.addResult(table);
-
-// Output to the dom
-let outputHtml = new OutputHtml();
-$('#mydiv').html(outputHtml.getHtml(result));
-
+renderer.renderTo($('#mydiv'), options);
 ```
 
 This will output
