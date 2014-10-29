@@ -1,16 +1,24 @@
+import {Colors} from 'utils/colors';
+
 export class ChartjsAdapter {
 
     renderGraphTo(element, graph) {
         let getChartData = function(graph) {
+                let index = 0,
+                    colors = new Colors(),
+                    colorScheme = colors.defaultScheme();
                 return {
                     labels: graph.labels,
                     datasets: graph.datasets.map(dataset => {
-                        dataset.fillColor = 'rgba(151,187,205,0.2)';
-                        dataset.strokeColor = 'rgba(151,187,205,1)';
-                        dataset.pointColor = 'rgba(151,187,205,1)';
-                        dataset.pointStrokeColor = '#fff';
-                        dataset.pointHighlightFill = '#fff';
-                        dataset.pointHighlightStroke = 'rgba(151,187,205,1)';
+                        let colorIndex = index % colorScheme.length,
+                            rgbColor = colors.hexToRgb(colorScheme[colorIndex]);
+                        dataset.fillColor = colors.rgbToString(rgbColor, 0.2);
+                        dataset.strokeColor = colors.rgbToString(rgbColor, 1);
+                        dataset.pointColor = colors.rgbToString(rgbColor, 1);
+                        dataset.pointStrokeColor = colors.rgbToString(rgbColor, 0.1);
+                        dataset.pointHighlightFill = colors.rgbToString(rgbColor, 0.1);
+                        dataset.pointHighlightStroke = colors.rgbToString(rgbColor, 1);
+                        index++;
 
                         return dataset;
                     })
@@ -38,9 +46,15 @@ export class ChartjsAdapter {
 
     renderSegmentGraphTo(element, graph) {
         let getChartData = function(graph) {
+                let index = 0,
+                    colors = new Colors(),
+                    colorScheme = colors.defaultScheme();
                 return graph.labels.map(label => {
-                    label.color = 'rgba(151,187,205,0.5)';
-                    label.highlight = 'rgba(151,187,205,1)';
+                    let colorIndex = index % colorScheme.length,
+                        rgbColor = colors.hexToRgb(colorScheme[colorIndex]);
+                    label.color = colors.rgbToString(rgbColor, 0.8);
+                    label.highlight = colors.rgbToString(rgbColor, 1);
+                    index++;
 
                     return label;
                 });

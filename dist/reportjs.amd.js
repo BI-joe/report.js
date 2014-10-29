@@ -1,19 +1,28 @@
-define("adapter/chartjsAdapter", [], function() {
+define("adapter/chartjsAdapter", ['utils/colors'], function($__0) {
   "use strict";
   var __moduleName = "adapter/chartjsAdapter";
+  if (!$__0 || !$__0.__esModule)
+    $__0 = {default: $__0};
+  var Colors = $__0.Colors;
   var ChartjsAdapter = function ChartjsAdapter() {};
   ($traceurRuntime.createClass)(ChartjsAdapter, {
     renderGraphTo: function(element, graph) {
       var getChartData = function(graph) {
+        var index = 0,
+            colors = new Colors(),
+            colorScheme = colors.defaultScheme();
         return {
           labels: graph.labels,
           datasets: graph.datasets.map((function(dataset) {
-            dataset.fillColor = 'rgba(151,187,205,0.2)';
-            dataset.strokeColor = 'rgba(151,187,205,1)';
-            dataset.pointColor = 'rgba(151,187,205,1)';
-            dataset.pointStrokeColor = '#fff';
-            dataset.pointHighlightFill = '#fff';
-            dataset.pointHighlightStroke = 'rgba(151,187,205,1)';
+            var colorIndex = index % colorScheme.length,
+                rgbColor = colors.hexToRgb(colorScheme[$traceurRuntime.toProperty(colorIndex)]);
+            dataset.fillColor = colors.rgbToString(rgbColor, 0.2);
+            dataset.strokeColor = colors.rgbToString(rgbColor, 1);
+            dataset.pointColor = colors.rgbToString(rgbColor, 1);
+            dataset.pointStrokeColor = colors.rgbToString(rgbColor, 0.1);
+            dataset.pointHighlightFill = colors.rgbToString(rgbColor, 0.1);
+            dataset.pointHighlightStroke = colors.rgbToString(rgbColor, 1);
+            index++;
             return dataset;
           }))
         };
@@ -37,9 +46,15 @@ define("adapter/chartjsAdapter", [], function() {
     },
     renderSegmentGraphTo: function(element, graph) {
       var getChartData = function(graph) {
+        var index = 0,
+            colors = new Colors(),
+            colorScheme = colors.defaultScheme();
         return graph.labels.map((function(label) {
-          label.color = 'rgba(151,187,205,0.5)';
-          label.highlight = 'rgba(151,187,205,1)';
+          var colorIndex = index % colorScheme.length,
+              rgbColor = colors.hexToRgb(colorScheme[$traceurRuntime.toProperty(colorIndex)]);
+          label.color = colors.rgbToString(rgbColor, 0.8);
+          label.highlight = colors.rgbToString(rgbColor, 1);
+          index++;
           return label;
         }));
       };
@@ -776,6 +791,38 @@ define("result/table/tableRow", [], function() {
   return {
     get TableRow() {
       return TableRow;
+    },
+    __esModule: true
+  };
+});
+
+define("utils/colors", [], function() {
+  "use strict";
+  var __moduleName = "utils/colors";
+  var Colors = function Colors() {};
+  ($traceurRuntime.createClass)(Colors, {
+    hexToRgb: function(hex) {
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      if (!result) {
+        throw Error('"' + hex + '" is not a valid hex color');
+      }
+      return {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      };
+    },
+    rgbToString: function(rgb) {
+      var alpha = arguments[1] !== (void 0) ? arguments[1] : 1;
+      return 'rgba(' + ([rgb.r, rgb.g, rgb.b, alpha].join(',')) + ')';
+    },
+    defaultScheme: function() {
+      return ['#97bbcd', '#dcdcdc', '#F7464A', '#46BFBD', '#949FB1', '#FDB45C', '#4D5360', '#7cb5ec', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'];
+    }
+  }, {});
+  return {
+    get Colors() {
+      return Colors;
     },
     __esModule: true
   };
