@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    clean: ["tmp", "dist"],
+    clean: ['tmp', 'dist'],
 
     traceur: {
       options: {

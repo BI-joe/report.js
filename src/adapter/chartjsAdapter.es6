@@ -1,6 +1,6 @@
 export class ChartjsAdapter {
 
-    renderTo(element, graph) {
+    renderGraphTo(element, graph) {
         let getChartData = function(graph) {
                 return {
                     labels: graph.labels,
@@ -36,4 +36,32 @@ export class ChartjsAdapter {
         }
     }
 
+    renderSegmentGraphTo(element, graph) {
+        let getChartData = function(graph) {
+                return graph.labels.map(label => {
+                    label.color = 'rgba(151,187,205,0.5)';
+                    label.highlight = 'rgba(151,187,205,1)';
+
+                    return label;
+                });
+            };
+
+        element.prepend('<canvas width="'+element.width()+'" height="400"></canvas>');
+        let context = element.find('canvas:first').get(0).getContext('2d'),
+            chart = new Chart(context);
+
+        switch (graph.graphType) {
+            case 'pie':
+                chart.Pie(getChartData(graph));
+                break;
+            case 'polarArea':
+                chart.PolarArea(getChartData(graph));
+                break;
+            case 'doughnut':
+                chart.Doughnut(getChartData(graph));
+                break;
+            default:
+                throw Error('Unknown segment graph type "' + graph.graphType + '"');
+        }
+    }
 }

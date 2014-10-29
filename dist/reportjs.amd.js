@@ -2,7 +2,8 @@ define("adapter/chartjsAdapter", [], function() {
   "use strict";
   var __moduleName = "adapter/chartjsAdapter";
   var ChartjsAdapter = function ChartjsAdapter() {};
-  ($traceurRuntime.createClass)(ChartjsAdapter, {renderTo: function(element, graph) {
+  ($traceurRuntime.createClass)(ChartjsAdapter, {
+    renderGraphTo: function(element, graph) {
       var getChartData = function(graph) {
         return {
           labels: graph.labels,
@@ -33,7 +34,33 @@ define("adapter/chartjsAdapter", [], function() {
         default:
           throw Error('Unknown graph type "' + graph.graphType + '"');
       }
-    }}, {});
+    },
+    renderSegmentGraphTo: function(element, graph) {
+      var getChartData = function(graph) {
+        return graph.labels.map((function(label) {
+          label.color = 'rgba(151,187,205,0.5)';
+          label.highlight = 'rgba(151,187,205,1)';
+          return label;
+        }));
+      };
+      element.prepend('<canvas width="' + element.width() + '" height="400"></canvas>');
+      var context = element.find('canvas:first').get(0).getContext('2d'),
+          chart = new Chart(context);
+      switch (graph.graphType) {
+        case 'pie':
+          chart.Pie(getChartData(graph));
+          break;
+        case 'polarArea':
+          chart.PolarArea(getChartData(graph));
+          break;
+        case 'doughnut':
+          chart.Doughnut(getChartData(graph));
+          break;
+        default:
+          throw Error('Unknown segment graph type "' + graph.graphType + '"');
+      }
+    }
+  }, {});
   return {
     get ChartjsAdapter() {
       return ChartjsAdapter;
@@ -328,6 +355,43 @@ define("renderer/graph/graphRenderer", ['result/graph/graph'], function($__0) {
   };
 });
 
+define("renderer/graph/segmentGraphRenderer", ['result/graph/segmentGraph'], function($__0) {
+  "use strict";
+  var __moduleName = "renderer/graph/segmentGraphRenderer";
+  if (!$__0 || !$__0.__esModule)
+    $__0 = {default: $__0};
+  var SegmentGraph = $__0.SegmentGraph;
+  var SegmentGraphRenderer = function SegmentGraphRenderer() {
+    var graphType = arguments[0] !== (void 0) ? arguments[0] : 'pie';
+    this.graphType = graphType;
+  };
+  ($traceurRuntime.createClass)(SegmentGraphRenderer, {render: function(grid) {
+      var dimensions = [];
+      grid.dimensions.forEach((function(dim) {
+        dimensions.push(dim);
+      }));
+      var labelsDimensionId = 'label',
+          mergedGrid = grid.mergeDimensions(dimensions, labelsDimensionId);
+      var labels = [];
+      mergedGrid.getDimensionValues(mergedGrid.getDimension(labelsDimensionId)).forEach((function(labelDV) {
+        var cellDimensionValues = new Map();
+        cellDimensionValues.set(labelsDimensionId, labelDV);
+        var cell = mergedGrid.getCell(cellDimensionValues);
+        labels.push({
+          label: labelDV.caption,
+          value: cell.value
+        });
+      }));
+      return new SegmentGraph(this.graphType, labels);
+    }}, {});
+  return {
+    get SegmentGraphRenderer() {
+      return SegmentGraphRenderer;
+    },
+    __esModule: true
+  };
+});
+
 define("renderer/table/tableBodyRenderer", ['result/table/tableRow', 'result/table/tableCell', 'utils/maps'], function($__0,$__2,$__4) {
   "use strict";
   var __moduleName = "renderer/table/tableBodyRenderer";
@@ -531,7 +595,7 @@ define("renderer/table/tableRenderer", ['result/table/table', 'renderer/table/ta
   };
 });
 
-define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'renderer/graph/graphRenderer', 'adapter/chartjsAdapter'], function($__0,$__2,$__4,$__6) {
+define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'renderer/graph/graphRenderer', 'renderer/graph/segmentGraphRenderer', 'adapter/chartjsAdapter'], function($__0,$__2,$__4,$__6,$__8) {
   "use strict";
   var __moduleName = "reportjs";
   if (!$__0 || !$__0.__esModule)
@@ -542,28 +606,39 @@ define("reportjs", ['data/gridFactory', 'renderer/table/tableRenderer', 'rendere
     $__4 = {default: $__4};
   if (!$__6 || !$__6.__esModule)
     $__6 = {default: $__6};
+  if (!$__8 || !$__8.__esModule)
+    $__8 = {default: $__8};
   var GridFactory = $__0.GridFactory;
   var TableRenderer = $__2.TableRenderer;
   var GraphRenderer = $__4.GraphRenderer;
-  var ChartjsAdapter = $__6.ChartjsAdapter;
+  var SegmentGraphRenderer = $__6.SegmentGraphRenderer;
+  var ChartjsAdapter = $__8.ChartjsAdapter;
   var Renderer = function Renderer() {};
   ($traceurRuntime.createClass)(Renderer, {renderTo: function(element, options) {
-      var tableRenderer$__9,
-          table$__10;
-      var graphRenderer$__11,
-          graph$__12,
-          adapter$__13;
+      var tableRenderer$__11,
+          table$__12;
+      var graphRenderer$__13,
+          graph$__14,
+          adapter$__15;
+      var graphRenderer$__16,
+          graph$__17,
+          adapter$__18;
       var gridFactory = new GridFactory(),
           grid = gridFactory.buildFromJson(options.data);
       if (options.layout.type === 'table') {
-        tableRenderer$__9 = new TableRenderer(options.layout.rows, options.layout.columns);
-        table$__10 = tableRenderer$__9.render(grid);
-        element.html(table$__10.getHtml());
+        tableRenderer$__11 = new TableRenderer(options.layout.rows, options.layout.columns);
+        table$__12 = tableRenderer$__11.render(grid);
+        element.html(table$__12.getHtml());
       } else if (options.layout.type === 'graph') {
-        graphRenderer$__11 = new GraphRenderer(options.layout.datasets, options.layout.labels, options.layout.graphType);
-        graph$__12 = graphRenderer$__11.render(grid);
-        adapter$__13 = new ChartjsAdapter();
-        adapter$__13.renderTo(element, graph$__12);
+        graphRenderer$__13 = new GraphRenderer(options.layout.datasets, options.layout.labels, options.layout.graphType);
+        graph$__14 = graphRenderer$__13.render(grid);
+        adapter$__15 = new ChartjsAdapter();
+        adapter$__15.renderGraphTo(element, graph$__14);
+      } else if (options.layout.type === 'segmentGraph') {
+        graphRenderer$__16 = new SegmentGraphRenderer(options.layout.graphType);
+        graph$__17 = graphRenderer$__16.render(grid);
+        adapter$__18 = new ChartjsAdapter();
+        adapter$__18.renderSegmentGraphTo(element, graph$__17);
       }
     }}, {});
   return {
@@ -590,6 +665,23 @@ define("result/graph/graph", [], function() {
   return {
     get Graph() {
       return Graph;
+    },
+    __esModule: true
+  };
+});
+
+define("result/graph/segmentGraph", [], function() {
+  "use strict";
+  var __moduleName = "result/graph/segmentGraph";
+  var SegmentGraph = function SegmentGraph(graphType) {
+    var labels = arguments[1] !== (void 0) ? arguments[1] : [];
+    this.graphType = graphType;
+    this.labels = labels;
+  };
+  ($traceurRuntime.createClass)(SegmentGraph, {}, {});
+  return {
+    get SegmentGraph() {
+      return SegmentGraph;
     },
     __esModule: true
   };

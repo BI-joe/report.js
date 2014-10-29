@@ -1,8 +1,8 @@
-import {Graph} from 'result/graph/graph';
+import {SegmentGraph} from 'result/graph/segmentGraph';
 import {GridFactory} from 'data/gridFactory';
-import {GraphRenderer} from 'renderer/graph/graphRenderer';
+import {SegmentGraphRenderer} from 'renderer/graph/segmentGraphRenderer';
 
-describe('GraphRenderer', function() {
+describe('SegmentGraphRenderer', function() {
     it('render', function() {
         let
             factory = new GridFactory(),
@@ -19,9 +19,9 @@ describe('GraphRenderer', function() {
                 ]
             },
             grid = factory.buildFromJson(gridData),
-            renderer = new GraphRenderer(['d2'],['d']);
+            renderer = new SegmentGraphRenderer();
 
-        let expectedGraph = new Graph('line', ['d11', 'd12'], [{ label: 'd21', data: [10, null] }, { label: 'd22', data: [8, 5] }]);
+        let expectedGraph = new SegmentGraph('pie', [{ label: 'd11 - d21', value: 10 }, { label: 'd12 - d22', value: 5 }, { label: 'd11 - d22', value: 8 }]);
 
         expect(renderer.render(grid)).toEqual(expectedGraph);
     });
