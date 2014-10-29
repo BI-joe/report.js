@@ -18,17 +18,24 @@
                     data: {
                         dimensions: [{ id: 'Measures'}, { id: 'Year' }, { id: 'Month' }],
                         dimensionValues: [
-                            [{ id: 'count', caption: 'My Count' }],
+                            [{ id: 'count', caption: 'My Count' }, { id: 'sum', caption: 'My Sum' }],
                             [{ id: '2013' }, { id: '2014' }],
                             [{ id: 'January' }, { id: 'February' }, { id: 'March' }]
                         ],
                         cells: [
                             {value: 10, dimensionValues: [0, 0, 0]},
-                            {value: 9, dimensionValues: [0, 0, 1]},
-                            {value: 9, dimensionValues: [0, 0, 2]},
+                            {value: 9, dimensionValues:  [0, 0, 1]},
+                            {value: 9, dimensionValues:  [0, 0, 2]},
                             {value: 10, dimensionValues: [0, 1, 0]},
                             {value: 13, dimensionValues: [0, 1, 1]},
-                            {value: 11, dimensionValues: [0, 1, 2]}
+                            {value: 11, dimensionValues: [0, 1, 2]},
+
+                            {value: 20, dimensionValues: [1, 0, 0]},
+                            {value: 19, dimensionValues: [1, 0, 1]},
+                            {value: 20, dimensionValues: [1, 0, 2]},
+                            {value: 26, dimensionValues: [1, 1, 0]},
+                            {value: 10, dimensionValues: [1, 1, 1]},
+                            {value: 8, dimensionValues:  [1, 1, 2]}
                         ]
                     },
                     layout: {
@@ -70,17 +77,24 @@
         data: {
             dimensions: [{ id: <span class="hljs-string">'Measures'</span>}, { id: <span class="hljs-string">'Year'</span> }, { id: <span class="hljs-string">'Month'</span> }],
             dimensionValues: [
-                [{ id: <span class="hljs-string">'count'</span>, caption: <span class="hljs-string">'My Count'</span> }],
+                [{ id: <span class="hljs-string">'count'</span>, caption: <span class="hljs-string">'My Count'</span> }, { id: <span class="hljs-string">'sum'</span>, caption: <span class="hljs-string">'My Sum'</span> }],
                 [{ id: <span class="hljs-string">'2013'</span> }, { id: <span class="hljs-string">'2014'</span> }],
                 [{ id: <span class="hljs-string">'January'</span> }, { id: <span class="hljs-string">'February'</span> }, { id: <span class="hljs-string">'March'</span> }]
             ],
             cells: [
                 {<span class="hljs-keyword">value</span>: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">9</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">9</span>, dimensionValues:  [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">9</span>, dimensionValues:  [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>]},
                 {<span class="hljs-keyword">value</span>: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]},
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]},
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">12</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]}
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">13</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">11</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]},
+
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">20</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">19</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">20</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">26</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">8</span>, dimensionValues:  [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]}
             ]
         },
         layout: {
