@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "homepage": "https://github.com/youknowriad/report.js",
   "authors": [
-    "Riad Benguella <benguella@gmail.com>"
+    "Riad Benguella <riad@rizeway.com>"
   ],
   "main": "dist/reportjs.js",
   "description": "Report Library",
@@ -17,6 +17,6 @@
   ],
   "dependencies": {
     "jquery": "~2.1.1",
-    "chartjs": "~0.2.0"
+    "chartjs": "~1.0.1"
   }
 }
