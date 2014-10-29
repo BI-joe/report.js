@@ -16,25 +16,23 @@
             var renderer = new reportjs.Renderer(),
                 options = {
                     data: {
-                        dimensions: [{ id: 'Measures'}, { id: 'Year' }, { id: 'Month' }],
+                        dimensions: [{ id: 'Year' }, { id: 'Month' }],
                         dimensionValues: [
-                            [{ id: 'count', caption: 'My Count' }],
                             [{ id: '2013' }, { id: '2014' }],
                             [{ id: 'January' }, { id: 'February' }, { id: 'March' }]
                         ],
                         cells: [
-                            {value: 10, dimensionValues: [0, 0, 0]},
-                            {value: 9, dimensionValues: [0, 0, 1]},
-                            {value: 9, dimensionValues: [0, 0, 2]},
-                            {value: 10, dimensionValues: [0, 1, 0]},
-                            {value: 13, dimensionValues: [0, 1, 1]},
-                            {value: 11, dimensionValues: [0, 1, 2]}
+                            {value: 2, dimensionValues: [0, 0]},
+                            {value: 3, dimensionValues: [0, 1]},
+                            {value: 9, dimensionValues: [0, 2]},
+                            {value: 10, dimensionValues: [1, 0]},
+                            {value: 90, dimensionValues: [1, 1]},
+                            {value: 11, dimensionValues: [1, 2]}
                         ]
                     },
                     layout: {
-                        type: 'graph',
-                        labels: ['Year', 'Month'],
-                        datasets: ['Measures']
+                        type: 'segmentGraph',
+                        graphType: 'doughnut'
                     }
                 };
 
@@ -63,30 +61,28 @@
       </header>
       <section>
         <h1>
-          <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>ChartJS Line example</h1>
+          <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>ChartJS Doughnut example</h1>
 
           <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> reportjs.Renderer(),
     options = {
         data: {
-            dimensions: [{ id: <span class="hljs-string">'Measures'</span>}, { id: <span class="hljs-string">'Year'</span> }, { id: <span class="hljs-string">'Month'</span> }],
+            dimensions: [{ id: <span class="hljs-string">'Year'</span> }, { id: <span class="hljs-string">'Month'</span> }],
             dimensionValues: [
-                [{ id: <span class="hljs-string">'count'</span>, caption: <span class="hljs-string">'My Count'</span> }],
                 [{ id: <span class="hljs-string">'2013'</span> }, { id: <span class="hljs-string">'2014'</span> }],
                 [{ id: <span class="hljs-string">'January'</span> }, { id: <span class="hljs-string">'February'</span> }, { id: <span class="hljs-string">'March'</span> }]
             ],
             cells: [
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">9</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>]},
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]},
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">15</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]},
-                {<span class="hljs-keyword">value</span>: <span class="hljs-number">12</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]}
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">2</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">3</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">9</span>, dimensionValues: [<span class="hljs-number">0</span>, <span class="hljs-number">2</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">10</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">90</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]},
+                {<span class="hljs-keyword">value</span>: <span class="hljs-number">11</span>, dimensionValues: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]}
             ]
         },
         layout: {
-            type: <span class="hljs-string">'graph'</span>,
-            labels: [<span class="hljs-string">'Year'</span>, <span class="hljs-string">'Month'</span>],
-            datasets: [<span class="hljs-string">'Measures'</span>]
+            type: <span class="hljs-string">'segmentGraph'</span>,
+            graphType: <span class="hljs-string">'doughnut'</span>
         }
     };
 
