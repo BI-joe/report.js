@@ -34,7 +34,7 @@ export class GraphRenderer {
                 if (cell) {
                     dataset.data.push(cell.value);
                 } else {
-                    dataset.data.push(null);
+                    dataset.data.push(0);
                 }
             });
             datasets.push(dataset);

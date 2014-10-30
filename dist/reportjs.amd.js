@@ -355,7 +355,7 @@ define("renderer/graph/graphRenderer", ['result/graph/graph'], function($__0) {
           if (cell) {
             dataset.data.push(cell.value);
           } else {
-            dataset.data.push(null);
+            dataset.data.push(0);
           }
         }));
         datasets.push(dataset);
