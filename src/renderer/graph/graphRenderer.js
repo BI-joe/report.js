@@ -1,4 +1,4 @@
-import {Graph} from 'result/graph/graph';
+import {Graph} from '../../result/graph/graph';
 
 export class GraphRenderer {
 
@@ -34,7 +34,7 @@ export class GraphRenderer {
                 if (cell) {
                     dataset.data.push(cell.value);
                 } else {
-                    dataset.data.push(0);
+                    dataset.data.push(null);
                 }
             });
             datasets.push(dataset);

@@ -1,6 +1,6 @@
 {
   "name": "reportjs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Report Library",
   "repository": "https://github.com/youknowriad/report.js.git",
   "directories": {
@@ -12,17 +12,15 @@
   "author": "Riad Benguella <benguella@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "traceur": "0.0.51",
     "karma": "~0.12.24",
-    "karma-traceur-preprocessor": "~0.3.1",
-    "karma-jasmine": "~0.1.5",
+    "karma-jasmine": "~0.2.2",
     "karma-requirejs": "~0.2.2",
     "karma-cli": "0.0.4",
     "karma-firefox-launcher": "^0.1.3",
-    "grunt": "^0.4.5",
-    "grunt-contrib-concat": "^0.5.0",
-    "grunt-traceur": "^0.2.0",
-    "grunt-text-replace": "^0.3.12",
-    "grunt-contrib-clean": "^0.6.0"
+    "karma-traceur-preprocessor": "vojtajina/karma-traceur-preprocessor#traceur-as-peer",
+    "requirejs": "^2.1.11",
+    "traceur": "vojtajina/traceur-compiler#add-es6-pure-transformer-dist",
+    "es6ify": "~1.5.1",
+    "browserify": "~6.2.0"
   }
 }

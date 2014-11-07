@@ -1,6 +1,6 @@
-import {TableRow}  from 'result/table/tableRow';
-import {TableCell} from 'result/table/tableCell';
-import {Maps}      from 'utils/maps';
+import {TableRow}  from '../../result/table/tableRow';
+import {TableCell} from '../../result/table/tableCell';
+import {Maps}      from '../../utils/maps';
 
 export class TableBodyRenderer {
 

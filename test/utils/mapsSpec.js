@@ -1,4 +1,4 @@
-import {Maps} from 'utils/maps';
+import {Maps} from '../../src/utils/maps';
 
 describe('Maps', function() {
     it('clone', function() {

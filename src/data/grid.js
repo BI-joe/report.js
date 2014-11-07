@@ -1,7 +1,7 @@
-import {Maps}           from 'utils/maps';
-import {Dimension}      from 'data/dimension';
-import {DimensionValue} from 'data/dimensionValue';
-import {Cell}           from 'data/cell';
+import {Maps}           from '../utils/maps';
+import {Dimension}      from '../data/dimension';
+import {DimensionValue} from '../data/dimensionValue';
+import {Cell}           from '../data/cell';
 
 export class Grid {
 

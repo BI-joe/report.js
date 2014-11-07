@@ -1,6 +1,6 @@
-import {Dimension} from 'data/dimension';
-import {DimensionValue} from 'data/dimensionValue';
-import {Cell} from 'data/cell';
+import {Dimension} from '../../src/data/dimension';
+import {DimensionValue} from '../../src/data/dimensionValue';
+import {Cell} from '../../src/data/cell';
 
 describe('Cell', function() {
     it('constructor', function() {

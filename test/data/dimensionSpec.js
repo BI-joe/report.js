@@ -1,4 +1,4 @@
-import {Dimension} from 'data/dimension';
+import {Dimension} from '../../src/data/dimension';
 
 describe('Dimension', function() {
     it('constructor', function() {

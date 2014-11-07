@@ -1,7 +1,7 @@
-import {Dimension} from 'data/dimension';
-import {DimensionValue} from 'data/dimensionValue';
-import {Cell} from 'data/cell';
-import {Grid} from 'data/grid';
+import {Dimension} from '../../src/data/dimension';
+import {DimensionValue} from '../../src/data/dimensionValue';
+import {Cell} from '../../src/data/cell';
+import {Grid} from '../../src/data/grid';
 
 describe('Cell', function() {
     it('constructor', function() {

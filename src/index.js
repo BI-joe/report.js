@@ -1,8 +1,8 @@
-import {GridFactory} from 'data/gridFactory';
-import {TableRenderer} from 'renderer/table/tableRenderer';
-import {GraphRenderer} from 'renderer/graph/graphRenderer';
-import {SegmentGraphRenderer} from 'renderer/graph/segmentGraphRenderer';
-import {ChartjsAdapter} from 'adapter/chartjsAdapter';
+import {GridFactory} from './data/gridFactory';
+import {TableRenderer} from './renderer/table/tableRenderer';
+import {GraphRenderer} from './renderer/graph/graphRenderer';
+import {SegmentGraphRenderer} from './renderer/graph/segmentGraphRenderer';
+import {ChartjsAdapter} from './adapter/chartjsAdapter';
 
 export class Renderer {
 

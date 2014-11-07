@@ -1,4 +1,4 @@
-import {Colors} from 'utils/colors';
+import {Colors} from '../../src/utils/colors';
 
 describe('Colors', function() {
     it('hexToRgb', function() {

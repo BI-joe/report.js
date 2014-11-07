@@ -1,4 +1,4 @@
-import {Graph} from 'result/graph/graph';
+import {Graph} from '../../../src/result/graph/graph';
 
 describe('Graph', function() {
     it('constructor and add dataset', function() {

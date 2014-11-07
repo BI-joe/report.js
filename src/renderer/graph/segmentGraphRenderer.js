@@ -1,4 +1,4 @@
-import {SegmentGraph} from 'result/graph/segmentGraph';
+import {SegmentGraph} from '../../result/graph/segmentGraph';
 
 export class SegmentGraphRenderer {
 

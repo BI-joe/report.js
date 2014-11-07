@@ -1,6 +1,6 @@
-import {TableRow} from 'result/table/tableRow';
-import {TableCell} from 'result/table/tableCell';
-import {Table} from 'result/table/table';
+import {TableRow} from '../../../src/result/table/tableRow';
+import {TableCell} from '../../../src/result/table/tableCell';
+import {Table} from '../../../src/result/table/table';
 
 describe('Table', function() {
     it('constructor and add row', function() {

@@ -1,6 +1,6 @@
-import {Table} from 'result/table/table';
-import {TableHeaderRenderer} from 'renderer/table/tableHeaderRenderer';
-import {TableBodyRenderer} from 'renderer/table/tableBodyRenderer';
+import {Table} from '../../result/table/table';
+import {TableHeaderRenderer} from '../../renderer/table/tableHeaderRenderer';
+import {TableBodyRenderer} from '../../renderer/table/tableBodyRenderer';
 
 export class TableRenderer {
 

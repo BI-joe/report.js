@@ -1,7 +1,7 @@
-import {TableRow} from 'result/table/tableRow';
-import {TableCell} from 'result/table/tableCell';
-import {GridFactory} from 'data/gridFactory';
-import {TableBodyRenderer} from 'renderer/table/tableBodyRenderer';
+import {TableRow} from '../../../src/result/table/tableRow';
+import {TableCell} from '../../../src/result/table/tableCell';
+import {GridFactory} from '../../../src/data/gridFactory';
+import {TableBodyRenderer} from '../../../src/renderer/table/tableBodyRenderer';
 
 describe('TableBodyRenderer', function() {
     it('render', function() {

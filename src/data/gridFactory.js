@@ -1,7 +1,7 @@
-import {Dimension} from 'data/dimension';
-import {DimensionValue} from 'data/dimensionValue';
-import {Cell} from 'data/cell';
-import {Grid} from 'data/grid';
+import {Dimension} from '../data/dimension';
+import {DimensionValue} from '../data/dimensionValue';
+import {Cell} from '../data/cell';
+import {Grid} from '../data/grid';
 
 export class GridFactory {
 

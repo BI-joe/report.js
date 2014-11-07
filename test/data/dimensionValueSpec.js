@@ -1,4 +1,4 @@
-import {DimensionValue} from 'data/dimensionValue';
+import {DimensionValue} from '../../src/data/dimensionValue';
 
 describe('DimensionValue', function() {
     it('constructor', function() {

@@ -1,17 +1,19 @@
 module.exports = function(config) {
     config.set({
-        basePath: '',
+        basePath: './',
 
         // frameworks to use
         frameworks: ['jasmine', 'requirejs', 'traceur'],
 
         preprocessors: {
-            '**/*.es6': ['traceur']
+            'src/**/*.js': ['traceur'],
+            'test/**/*Spec.js': ['traceur']
         },
 
         files: [
-            {pattern: 'src/**/*.es6', included: false},
-            {pattern: 'test/**/*Spec.es6', included: false},
+            {pattern: 'src/**/*.js', included: false},
+            {pattern: 'test/**/*Spec.js', included: false},
+
             'test/test-main.js'
         ],
 
