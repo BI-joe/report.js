@@ -27,17 +27,23 @@ export class ChartjsAdapter {
 
         element.prepend('<canvas width="'+element.width()+'" height="400"></canvas>');
         let context = element.find('canvas:first').get(0).getContext('2d'),
-            chart = new Chart(context);
+            chart = new Chart(context),
+            chartOptions = {
+              legendTemplate : '<ul class="chartjs-legend <%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span class="pill" style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+            };
 
         switch (graph.graphType) {
             case 'line':
-                chart.Line(getChartData(graph));
+                chart = chart.Line(getChartData(graph), chartOptions);
+                element.append(chart.generateLegend());
                 break;
             case 'bar':
-                chart.Bar(getChartData(graph));
+                chart = chart.Bar(getChartData(graph), chartOptions);
+                element.append(chart.generateLegend());
                 break;
             case 'radar':
-                chart.Radar(getChartData(graph));
+                chart = chart.Radar(getChartData(graph), chartOptions);
+                element.append(chart.generateLegend());
                 break;
             default:
                 throw Error('Unknown graph type "' + graph.graphType + '"');
@@ -62,17 +68,23 @@ export class ChartjsAdapter {
 
         element.prepend('<canvas width="'+element.width()+'" height="400"></canvas>');
         let context = element.find('canvas:first').get(0).getContext('2d'),
-            chart = new Chart(context);
+            chart = new Chart(context),
+            chartOptions = {
+              legendTemplate : '<ul class="chartjs-legend <%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span class="pill" style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+            };
 
         switch (graph.graphType) {
             case 'pie':
-                chart.Pie(getChartData(graph));
+                chart = chart.Pie(getChartData(graph), chartOptions);
+                element.append(chart.generateLegend());
                 break;
             case 'polarArea':
-                chart.PolarArea(getChartData(graph));
+                chart = chart.PolarArea(getChartData(graph), chartOptions);
+                element.append(chart.generateLegend());
                 break;
             case 'doughnut':
-                chart.Doughnut(getChartData(graph));
+                chart = chart.Doughnut(getChartData(graph), chartOptions);
+                element.append(chart.generateLegend());
                 break;
             default:
                 throw Error('Unknown segment graph type "' + graph.graphType + '"');

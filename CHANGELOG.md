@@ -1,3 +1,7 @@
+# 1.1.0
+
+ * Adding Charts legend and a css file
+
 # 1.0.2
 
  * Empty values now handled by Chartjs correctly (1.0.0 beta 4)

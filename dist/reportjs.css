@@ -1,0 +1,17 @@
+.chartjs-legend li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.chartjs-legend .pill {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 3px;
+}
+
+.chartjs-legend {
+  list-style: none;
+  text-align: center;
+}
