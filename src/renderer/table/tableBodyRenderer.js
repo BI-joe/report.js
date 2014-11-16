@@ -4,13 +4,13 @@ import {Maps}      from '../../utils/maps';
 
 export class TableBodyRenderer {
 
-    constructor(rowDimensions, columnDimensions) {
+    constructor(rowDimensions, columnDimensions, options = {}) {
         this.rowDimensions = rowDimensions;
         this.columnDimensions = columnDimensions;
+        this.options = options;
     }
 
     render(grid) {
-
         let mapUtils = new Maps(),
 
             getBodyCells = function(currentRow, columnDimensions, cells, dimensionValues) {
@@ -52,29 +52,38 @@ export class TableBodyRenderer {
                         let currentDimensionValues = mapUtils.clone(dimensionValues);
 
                         currentDimensionValues.set(currentDimensionId, dimensionValue);
-                        let tableCell = new TableCell(dimensionValue.caption, { header: true });
-                        currentRow.addCell(tableCell);
-                        let childCellsCount = getRows(rows, remainingDimensions, columnDimensions, subCells, currentDimensionValues, currentRow);
-                        tableCell.setOption('rowspan', childCellsCount);
+                        let tableCell;
+                        if (!this.options.hideHeaders) {
+                            tableCell = new TableCell(dimensionValue.caption, { header: true });
+                            currentRow.addCell(tableCell);
+                        }
+                        let childCellsCount = getRows.call(this, rows, remainingDimensions, columnDimensions, subCells, currentDimensionValues, currentRow);
+                        if (!this.options.hideHeaders) {
+                            tableCell.setOption('rowspan', childCellsCount);
+                        }
                         countCells += childCellsCount;
                     }
-                });
+                }, this);
 
             return countCells;
         };
 
         let rows = [];
-        getRows(rows, this.rowDimensions, this.columnDimensions, grid.cells);
+        getRows.call(this, rows, this.rowDimensions, this.columnDimensions, grid.cells);
 
         return rows;
     }
 
     getHeaderCells() {
+        if (this.options.hideHeaders) {
+            return [];
+        }
         return [
             new TableCell('', {
                 colspan: this.rowDimensions.length,
                 header: true
             })
         ];
+
     }
 }

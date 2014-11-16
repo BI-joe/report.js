@@ -4,11 +4,15 @@ import {Maps}      from '../../utils/maps';
 
 export class TableHeaderRenderer {
 
-    constructor(columnDimensions) {
+    constructor(columnDimensions, options = {}) {
         this.columnDimensions = columnDimensions;
+        this.options = options;
     }
 
     render(grid, headerCells = []) {
+        if (this.options.hideHeaders) {
+            return [];
+        }
 
         let mapUtils = new Maps(),
             getHeaderRows = function(rows, dimensions, cells, dimensionValues = new Map()) {

@@ -11,7 +11,7 @@ export class Renderer {
             grid = gridFactory.buildFromJson(options.data);
 
         if (options.layout.type === 'table') {
-            let tableRenderer = new TableRenderer(options.layout.rows, options.layout.columns),
+            let tableRenderer = new TableRenderer(options.layout.rows, options.layout.columns, options.layout.options),
                 table = tableRenderer.render(grid);
                 element.html(table.getHtml());
         } else if (options.layout.type === 'graph') {

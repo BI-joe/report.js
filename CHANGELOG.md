@@ -1,3 +1,7 @@
+# 1.2.0
+
+ * Adding Hide header featurs for table layouts
+
 # 1.1.0
 
  * Adding Charts legend and a css file

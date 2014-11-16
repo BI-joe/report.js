@@ -4,15 +4,20 @@ import {TableBodyRenderer} from '../../renderer/table/tableBodyRenderer';
 
 export class TableRenderer {
 
-    constructor(rowDimensions, columnDimensions) {
+    constructor(rowDimensions, columnDimensions, options = {}) {
         this.rowDimensions    = rowDimensions;
         this.columnDimensions = columnDimensions;
+        this.options = options;
     }
 
     render(grid) {
         let table = new Table(),
-            tableHeaderRenderer = new TableHeaderRenderer(this.columnDimensions),
-            tableBodyRenderer = new TableBodyRenderer(this.rowDimensions, this.columnDimensions),
+            tableHeaderRenderer = new TableHeaderRenderer(this.columnDimensions, {
+                hideHeaders: this.options.hideColumnHeaders
+            }),
+            tableBodyRenderer = new TableBodyRenderer(this.rowDimensions, this.columnDimensions, {
+                hideHeaders: this.options.hideRowHeaders
+            }),
 
             headerRows = tableHeaderRenderer.render(grid, tableBodyRenderer.getHeaderCells()),
             bodyRows = tableBodyRenderer.render(grid);
