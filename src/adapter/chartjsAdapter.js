@@ -41,7 +41,7 @@ export class ChartjsAdapter {
                 };
             };
 
-        element.prepend('<canvas width="'+getWidth(element, graph.height)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
+        element.prepend('<canvas width="'+getWidth(element, graph.width)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
         let context = element.find('canvas:first').get(0).getContext('2d'),
             chart = new Chart(context),
             chartOptions = {
@@ -82,7 +82,7 @@ export class ChartjsAdapter {
                 });
             };
 
-        element.prepend('<canvas width="'+getWidth(element, graph.height)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
+        element.prepend('<canvas width="'+getWidth(element, graph.width)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
         let context = element.find('canvas:first').get(0).getContext('2d'),
             chart = new Chart(context),
             chartOptions = {

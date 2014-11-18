@@ -2,8 +2,10 @@ import {SegmentGraph} from '../../result/graph/segmentGraph';
 
 export class SegmentGraphRenderer {
 
-    constructor(graphType = 'pie') {
-        this.graphType          = graphType;
+    constructor(graphType = 'pie', height = 'auto', width = 'auto') {
+        this.graphType = graphType;
+        this.height    = height;
+        this.width     = width;
     }
 
     render(grid) {
@@ -25,6 +27,6 @@ export class SegmentGraphRenderer {
             });
         });
 
-        return new SegmentGraph(this.graphType, labels);
+        return new SegmentGraph(this.graphType, labels, this.height, this.width);
     }
 }

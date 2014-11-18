@@ -15,12 +15,12 @@ export class Renderer {
                 table = tableRenderer.render(grid);
                 element.html(table.getHtml());
         } else if (options.layout.type === 'graph') {
-            let graphRenderer = new GraphRenderer(options.layout.datasets, options.layout.labels, options.layout.graphType, options.layout.height),
+            let graphRenderer = new GraphRenderer(options.layout.datasets, options.layout.labels, options.layout.graphType, options.layout.height, options.layout.width),
                 graph = graphRenderer.render(grid),
                 adapter = new ChartjsAdapter();
             adapter.renderGraphTo(element, graph);
         } else if (options.layout.type === 'segmentGraph') {
-            let graphRenderer = new SegmentGraphRenderer(options.layout.graphType),
+            let graphRenderer = new SegmentGraphRenderer(options.layout.graphType, options.layout.height, options.layout.width),
                 graph = graphRenderer.render(grid),
                 adapter = new ChartjsAdapter();
             adapter.renderSegmentGraphTo(element, graph);
