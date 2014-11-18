@@ -15,7 +15,7 @@ export class Renderer {
                 table = tableRenderer.render(grid);
                 element.html(table.getHtml());
         } else if (options.layout.type === 'graph') {
-            let graphRenderer = new GraphRenderer(options.layout.datasets, options.layout.labels, options.layout.graphType),
+            let graphRenderer = new GraphRenderer(options.layout.datasets, options.layout.labels, options.layout.graphType, options.layout.height),
                 graph = graphRenderer.render(grid),
                 adapter = new ChartjsAdapter();
             adapter.renderGraphTo(element, graph);

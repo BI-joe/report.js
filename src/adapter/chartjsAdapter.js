@@ -1,5 +1,21 @@
 import {Colors} from '../utils/colors';
 
+function getHeight (element, height = 'auto') {
+    if (height === 'auto') {
+        return element.height() > 140 ? element.height() - 50 : 300;
+    } else {
+        return height;
+    }
+}
+
+function getWidth (element, width = 'auto') {
+    if (width === 'auto') {
+        return element.width() > 90 ? element.width() - 50 : 300;
+    } else {
+        return width;
+    }
+}
+
 export class ChartjsAdapter {
 
     renderGraphTo(element, graph) {
@@ -25,7 +41,7 @@ export class ChartjsAdapter {
                 };
             };
 
-        element.prepend('<canvas width="'+element.width()+'" height="400"></canvas>');
+        element.prepend('<canvas width="'+getWidth(element, graph.height)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
         let context = element.find('canvas:first').get(0).getContext('2d'),
             chart = new Chart(context),
             chartOptions = {
@@ -66,7 +82,7 @@ export class ChartjsAdapter {
                 });
             };
 
-        element.prepend('<canvas width="'+element.width()+'" height="400"></canvas>');
+        element.prepend('<canvas width="'+getWidth(element, graph.height)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
         let context = element.find('canvas:first').get(0).getContext('2d'),
             chart = new Chart(context),
             chartOptions = {

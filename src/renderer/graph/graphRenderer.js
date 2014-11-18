@@ -2,10 +2,11 @@ import {Graph} from '../../result/graph/graph';
 
 export class GraphRenderer {
 
-    constructor(datasetsDimensions, labelsDimensions, graphType = 'line') {
+    constructor(datasetsDimensions, labelsDimensions, graphType = 'line', height = 'auto') {
         this.datasetsDimensions = datasetsDimensions;
         this.labelsDimensions   = labelsDimensions;
         this.graphType          = graphType;
+        this.height             = height;
     }
 
     render(grid) {
@@ -40,6 +41,6 @@ export class GraphRenderer {
             datasets.push(dataset);
         });
 
-        return new Graph(this.graphType, labels, datasets);
+        return new Graph(this.graphType, labels, datasets, this.height);
     }
 }
