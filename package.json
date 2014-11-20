@@ -2,7 +2,7 @@
   "name": "reportjs",
   "version": "1.3.0",
   "description": "Report Library",
-  "repository": "https://github.com/youknowriad/report.js.git",
+  "repository": "https://github.com/BI-joe/report.js.git",
   "directories": {
     "test": "test"
   },
