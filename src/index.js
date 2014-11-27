@@ -1,30 +1,11 @@
-import {GridFactory} from './data/gridFactory';
-import {TableRenderer} from './renderer/table/tableRenderer';
-import {GraphRenderer} from './renderer/graph/graphRenderer';
-import {SegmentGraphRenderer} from './renderer/graph/segmentGraphRenderer';
+import {Renderer} from './renderer/renderer';
 import {ChartjsAdapter} from './adapter/chartjsAdapter';
+import {JQueryAdapter} from './adapter/jqueryAdapter';
 
-export class Renderer {
+var reportjs = {
+  Renderer: Renderer,
+  ChartjsAdapter: ChartjsAdapter,
+  JQueryAdapter: JQueryAdapter
+};
 
-    renderTo(element, options) {
-        let gridFactory = new GridFactory(),
-            grid = gridFactory.buildFromJson(options.data);
-
-        if (options.layout.type === 'table') {
-            let tableRenderer = new TableRenderer(options.layout.rows, options.layout.columns, options.layout.options),
-                table = tableRenderer.render(grid);
-                element.html(table.getHtml());
-        } else if (options.layout.type === 'graph') {
-            let graphRenderer = new GraphRenderer(options.layout.datasets, options.layout.labels, options.layout.graphType, options.layout.height, options.layout.width),
-                graph = graphRenderer.render(grid),
-                adapter = new ChartjsAdapter();
-            adapter.renderGraphTo(element, graph);
-        } else if (options.layout.type === 'segmentGraph') {
-            let graphRenderer = new SegmentGraphRenderer(options.layout.graphType, options.layout.height, options.layout.width),
-                graph = graphRenderer.render(grid),
-                adapter = new ChartjsAdapter();
-            adapter.renderSegmentGraphTo(element, graph);
-        }
-    }
-
-}
+export {reportjs};

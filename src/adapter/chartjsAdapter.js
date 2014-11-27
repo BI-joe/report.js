@@ -18,8 +18,8 @@ function getWidth (element, width = 'auto') {
 
 export class ChartjsAdapter {
 
-    renderGraphTo(element, graph) {
-        let getChartData = function(graph) {
+    renderGraphToCanvas(canvas, graph) {
+      let getChartData = function(graph) {
                 let index = 0,
                     colors = new Colors(),
                     colorScheme = colors.defaultScheme();
@@ -41,8 +41,7 @@ export class ChartjsAdapter {
                 };
             };
 
-        element.prepend('<canvas width="'+getWidth(element, graph.width)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
-        let context = element.find('canvas:first').get(0).getContext('2d'),
+        let context = canvas.getContext('2d'),
             chart = new Chart(context),
             chartOptions = {
               legendTemplate : '<ul class="chartjs-legend <%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span class="pill" style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
@@ -51,23 +50,22 @@ export class ChartjsAdapter {
         switch (graph.graphType) {
             case 'line':
                 chart = chart.Line(getChartData(graph), chartOptions);
-                element.append(chart.generateLegend());
                 break;
             case 'bar':
                 chart = chart.Bar(getChartData(graph), chartOptions);
-                element.append(chart.generateLegend());
                 break;
             case 'radar':
                 chart = chart.Radar(getChartData(graph), chartOptions);
-                element.append(chart.generateLegend());
                 break;
             default:
                 throw Error('Unknown graph type "' + graph.graphType + '"');
         }
+
+        return chart;
     }
 
-    renderSegmentGraphTo(element, graph) {
-        let getChartData = function(graph) {
+    renderSegmentGraphToCanvas(canvas, graph) {
+      let getChartData = function(graph) {
                 let index = 0,
                     colors = new Colors(),
                     colorScheme = colors.defaultScheme();
@@ -82,8 +80,7 @@ export class ChartjsAdapter {
                 });
             };
 
-        element.prepend('<canvas width="'+getWidth(element, graph.width)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
-        let context = element.find('canvas:first').get(0).getContext('2d'),
+        let context = canvas.getContext('2d'),
             chart = new Chart(context),
             chartOptions = {
               legendTemplate : '<ul class="chartjs-legend <%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span class="pill" style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
@@ -92,18 +89,31 @@ export class ChartjsAdapter {
         switch (graph.graphType) {
             case 'pie':
                 chart = chart.Pie(getChartData(graph), chartOptions);
-                element.append(chart.generateLegend());
                 break;
             case 'polarArea':
                 chart = chart.PolarArea(getChartData(graph), chartOptions);
-                element.append(chart.generateLegend());
                 break;
             case 'doughnut':
                 chart = chart.Doughnut(getChartData(graph), chartOptions);
-                element.append(chart.generateLegend());
                 break;
             default:
                 throw Error('Unknown segment graph type "' + graph.graphType + '"');
         }
+
+        return chart;
+    }
+
+    renderGraphTo(element, graph) {
+        element.prepend('<canvas width="'+getWidth(element, graph.width)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
+        var canvas = element.find('canvas:first').get(0);
+        var chart = this.renderGraphToCanvas(canvas, graph);
+        element.append(chart.generateLegend());
+    }
+
+    renderSegmentGraphTo(element, graph) {
+        element.prepend('<canvas width="'+getWidth(element, graph.width)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
+        var canvas = element.find('canvas:first').get(0);
+        var chart = this.renderSegmentGraphToCanvas(canvas, graph);
+        element.append(chart.generateLegend());
     }
 }
