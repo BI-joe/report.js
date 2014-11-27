@@ -13,7 +13,8 @@
     <script src="javascripts/reportjs.js"></script>
     <script>
         $(document).ready(function() {
-            var renderer = new reportjs.Renderer(),
+            var renderer = new reportjs.reportjs.Renderer(),
+                adapter = new reportjs.reportjs.ChartjsAdapter(),
                 options = {
                     data: {
                         dimensions: [{ id: 'Year' }, { id: 'Month' }],
@@ -34,9 +35,9 @@
                         type: 'segmentGraph',
                         graphType: 'pie'
                     }
-                };
-
-            renderer.renderTo($('#mydiv'), options);
+                },
+                graph = renderer.render(options);
+            adapter.renderSegmentGraphTo($('#mydiv'), graph);
         });
     </script>
     <!--[if lt IE 9]>
@@ -63,7 +64,8 @@
         <h1>
           <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>ChartJS Pie example</h1>
 
-          <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> reportjs.Renderer(),
+          <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> reportjs.reportjs.Renderer(),
+    adapter = <span class="hljs-keyword">new</span> reportjs.reportjs.ChartjsAdapter(),
     options = {
         data: {
             dimensions: [{ id: <span class="hljs-string">'Year'</span> }, { id: <span class="hljs-string">'Month'</span> }],
@@ -84,9 +86,9 @@
             type: <span class="hljs-string">'segmentGraph'</span>,
             graphType: <span class="hljs-string">'pie'</span>
         }
-    };
-
-renderer.renderTo($(<span class="hljs-string">'#mydiv'</span>), options);
+    },
+    graph = renderer.render(options);
+adapter.renderSegmentGraphTo($(<span class="hljs-string">'#mydiv'</span>), graph);
 </code></pre>
 
           <h2>The result</h2>

@@ -13,7 +13,8 @@
     <script src="javascripts/reportjs.js"></script>
     <script>
         $(document).ready(function() {
-            var renderer = new reportjs.Renderer(),
+            var adapter = new reportjs.reportjs.ChartjsAdapter(),
+                renderer = new reportjs.reportjs.Renderer(),
                 options = {
                     data: {
                         dimensions: [{ id: 'Measures'}, { id: 'Year' }, { id: 'Month' }],
@@ -42,9 +43,9 @@
                         labels: ['Year', 'Month'],
                         datasets: ['Measures']
                     }
-                };
-
-            renderer.renderTo($('#mydiv'), options);
+                },
+                graph = renderer.render(options);
+            adapter.renderGraphTo($('#mydiv'), graph);
         });
     </script>
     <!--[if lt IE 9]>
@@ -71,7 +72,8 @@
         <h1>
           <a name="reportjs" class="anchor" href="#reportjs"><span class="octicon octicon-link"></span></a>ChartJS Line example</h1>
 
-          <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> reportjs.Renderer(),
+          <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> reportjs.reportjs.Renderer(),
+    adapter = <span class="hljs-keyword">new</span> reportjs.reportjs.ChartjsAdapter(),
     options = {
         data: {
             dimensions: [{ id: <span class="hljs-string">'Measures'</span>}, { id: <span class="hljs-string">'Year'</span> }, { id: <span class="hljs-string">'Month'</span> }],
@@ -100,9 +102,9 @@
             labels: [<span class="hljs-string">'Year'</span>, <span class="hljs-string">'Month'</span>],
             datasets: [<span class="hljs-string">'Measures'</span>]
         }
-    };
-
-renderer.renderTo($(<span class="hljs-string">'#mydiv'</span>), options);
+    },
+    graph = renderer.render(options);
+adapter.renderGraphTo($(<span class="hljs-string">'#mydiv'</span>), graph);
 </code></pre>
 
           <h2>The result</h2>
