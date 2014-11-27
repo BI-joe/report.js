@@ -3,6 +3,7 @@
   "version": "1.3.0",
   "description": "Report Library",
   "repository": "https://github.com/BI-joe/report.js.git",
+  "main": "dist/reportjs.js",
   "directories": {
     "test": "test"
   },
