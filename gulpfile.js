@@ -17,7 +17,7 @@ gulp.task('browser', function() {
 
 gulp.task('cjs', function() {
   gulp.src('src/**/*.js')
-    .pipe(traceur({modules: 'commonjs'}))
+    .pipe(traceur({modules: 'commonjs', experimental: true}))
     .pipe(gulp.dest('dist/cjs'));
 });
 
