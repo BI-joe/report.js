@@ -1,1 +1,1 @@
-window.reportjs = require('../src/index.js');
+window.reportjs = require('../src/index.js').reportjs;

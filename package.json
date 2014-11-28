@@ -1,9 +1,9 @@
 {
   "name": "reportjs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Report Library",
   "repository": "https://github.com/BI-joe/report.js.git",
-  "main": "dist/reportjs.js",
+  "main": "dist/reportjs.cjs.js",
   "directories": {
     "test": "test"
   },
@@ -20,8 +20,13 @@
     "karma-firefox-launcher": "^0.1.3",
     "karma-traceur-preprocessor": "vojtajina/karma-traceur-preprocessor#traceur-as-peer",
     "requirejs": "^2.1.11",
-    "traceur": "vojtajina/traceur-compiler#add-es6-pure-transformer-dist",
+    "gulp": "^3.8.10",
+    "gulp-traceur": "^0.14.1",
+    "vinyl-source-stream": "^1.0.0",
     "es6ify": "~1.5.1",
     "browserify": "~6.2.0"
+  },
+  "dependencies": {
+    "traceur": "vojtajina/traceur-compiler#add-es6-pure-transformer-dist"
   }
 }
