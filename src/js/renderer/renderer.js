@@ -5,7 +5,7 @@ import {SegmentGraphRenderer} from './graph/segmentGraphRenderer';
 
 export class Renderer {
 
-    render(options) {
+    render(options) {
         let gridFactory = new GridFactory(),
             grid = gridFactory.buildFromJson(options.data),
             output;

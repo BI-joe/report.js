@@ -1,44 +1,43 @@
 Report.js
 =========
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BI-joe/report.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![Build Status](https://travis-ci.org/youknowriad/report.js.svg)](https://travis-ci.org/youknowriad/report.js)
+[![Build Status](https://travis-ci.org/BI-joe/report.js.svg)](https://travis-ci.org/BI-joe/report.js)
 
 
 Dependancies
 ------------
-Report.js depend on [jQuery](http://jquery.com) and [Chart.js](http://chartjs.org).
-Don't forget to add them to your page.
+Report.js depend on [Chart.js](http://chartjs.org) for graph rendering
 
 Usage
 -----
 
 ```javascript
-import {Renderer} from 'reportjs';
+import {Renderer, DOMAdapter} from 'reportjs';
 
-let renderer = new Renderer(),
-    options = {
-        data: {
-            dimensions: [{ id: 'Measures'}, { id: 'Year' }],
-            dimensionValues: [
-                [{ id: 'count', caption: 'My Count' }, { id: 'sum', caption: 'My Sum' }],
-                [{ id: '2013' }, { id: '2014' }]
-            ],
-            cells: [
-                {value: 10, dimensionValues: [0, 0]},
-                {value: 20, dimensionValues: [1, 1]},
-                {value: 15, dimensionValues: [0, 1]}
-            ]
-        },
-        layout: {
-            type: 'table',
-            rows: ['Measures'],
-            columns: ['Measures', 'Category']
-        }
-    };
+const renderer = new Renderer();
+const adapter = new DOMAdapter();
+const report = {
+    data: {
+        dimensions: [{ id: 'Measures'}, { id: 'Year' }],
+        dimensionValues: [
+            [{ id: 'count', caption: 'My Count' }, { id: 'sum', caption: 'My Sum' }],
+            [{ id: '2013' }, { id: '2014' }]
+        ],
+        cells: [
+            {value: 10, dimensionValues: [0, 0]},
+            {value: 20, dimensionValues: [1, 1]},
+            {value: 15, dimensionValues: [0, 1]}
+        ]
+    },
+    layout: {
+        type: 'table',
+        rows: ['Measures'],
+        columns: ['Measures', 'Category']
+    }
+};
 
-renderer.renderTo($('#mydiv'), options);
+const output = renderer.render(report);
+adapter.renderTo(document.getElementById('#mycontainer'), output);
 ```
 
 This will output
@@ -48,16 +47,13 @@ This will output
 | My Count |  10  |      |
 | My Sum   |  15  |  20  |
 
-For a browser example without ES6, check [the demo](http://youknowriad.github.io/report.js)
-
 Contribute
 ----------
 Install the dependencies
 
 ```sh
 git clone https://github.com/youknowriad/report.js.git && cd report.js
-npm install
-bower install
+npm Install
 ```
 
 Tests

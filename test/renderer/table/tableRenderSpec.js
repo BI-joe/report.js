@@ -1,8 +1,8 @@
-import {TableRow} from '../../../src/result/table/tableRow';
-import {TableCell} from '../../../src/result/table/tableCell';
-import {Table} from '../../../src/result/table/table';
-import {GridFactory} from '../../../src/data/gridFactory';
-import {TableRenderer} from '../../../src/renderer/table/tableRenderer';
+import {TableRow} from '../../../src/js/result/table/tableRow';
+import {TableCell} from '../../../src/js/result/table/tableCell';
+import {Table} from '../../../src/js/result/table/table';
+import {GridFactory} from '../../../src/js/data/gridFactory';
+import {TableRenderer} from '../../../src/js/renderer/table/tableRenderer';
 
 describe('TableRenderer', function() {
     it('render', function() {

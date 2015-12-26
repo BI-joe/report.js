@@ -1,4 +1,4 @@
-import {SegmentGraph} from '../../../src/result/graph/segmentGraph';
+import {SegmentGraph} from '../../../src/js/result/graph/segmentGraph';
 
 describe('SegmentGraph', function() {
     it('constructor', function() {

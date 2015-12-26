@@ -1,6 +1,6 @@
-import {Graph} from '../../../src/result/graph/graph';
-import {GridFactory} from '../../../src/data/gridFactory';
-import {GraphRenderer} from '../../../src/renderer/graph/graphRenderer';
+import {Graph} from '../../../src/js/result/graph/graph';
+import {GridFactory} from '../../../src/js/data/gridFactory';
+import {GraphRenderer} from '../../../src/js/renderer/graph/graphRenderer';
 
 describe('GraphRenderer', function() {
     it('render', function() {

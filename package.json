@@ -1,32 +1,37 @@
 {
   "name": "reportjs",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "Report Library",
-  "repository": "https://github.com/BI-joe/report.js.git",
-  "main": "dist/reportjs.cjs.js",
-  "directories": {
-    "test": "test"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BI-joe/report.js.git"
   },
+  "main": "dist/js/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/karma start --single-run --browsers Firefox"
+    "test": "npm run lint && karma start --single-run --browsers Firefox",
+    "lint": "eslint src/js",
+    "build": "rimraf lib && babel --presets es2015 -d dist/js/ src/js/",
+    "prepublish": "npm run test && npm run build"
   },
   "author": "Riad Benguella <benguella@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "babel": "^6.3.26",
+    "babel-cli": "^6.3.17",
+    "babel-eslint": "^4.1.6",
+    "babel-preset-es2015": "^6.3.13",
+    "eslint": "^1.10.3",
     "karma": "~0.12.24",
-    "karma-jasmine": "~0.2.2",
-    "karma-requirejs": "~0.2.2",
     "karma-cli": "0.0.4",
     "karma-firefox-launcher": "^0.1.3",
+    "karma-jasmine": "~0.2.2",
+    "karma-requirejs": "~0.2.2",
+    "karma-traceur-preprocessor": "^0.4.0",
     "requirejs": "^2.1.11",
-    "gulp": "^3.8.10",
-    "gulp-traceur": "^0.14.1",
-    "vinyl-source-stream": "^1.0.0",
-    "es6ify": "~1.5.1",
-    "browserify": "~6.2.0"
+    "rimraf": "^2.5.0",
+    "traceur": "0.0.78"
   },
   "dependencies": {
-    "karma-traceur-preprocessor": "^0.4.0",
-    "traceur": "0.0.78"
+    "chart.js": "^1.0.2"
   }
 }

@@ -1,8 +1,8 @@
-import {GridFactory} from '../../src/data/gridFactory';
-import {Dimension} from '../../src/data/dimension';
-import {DimensionValue} from '../../src/data/dimensionValue';
-import {Cell} from '../../src/data/cell';
-import {Grid} from '../../src/data/grid';
+import {GridFactory} from '../../src/js/data/gridFactory';
+import {Dimension} from '../../src/js/data/dimension';
+import {DimensionValue} from '../../src/js/data/dimensionValue';
+import {Cell} from '../../src/js/data/cell';
+import {Grid} from '../../src/js/data/grid';
 
 
 describe('GridFactory', function() {

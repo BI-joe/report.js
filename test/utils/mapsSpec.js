@@ -1,4 +1,4 @@
-import {Maps} from '../../src/utils/maps';
+import {Maps} from '../../src/js/utils/maps';
 
 describe('Maps', function() {
     it('clone', function() {

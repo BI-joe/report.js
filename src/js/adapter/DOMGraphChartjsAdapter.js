@@ -1,22 +1,23 @@
+import Chart from 'chart.js';
 import {Colors} from '../utils/colors';
 
-function getHeight (element, height = 'auto') {
+function getHeight(element, height = 'auto') {
     if (height === 'auto') {
-        return element.height() > 140 ? element.height() - 50 : 300;
+        return element.offsetHeight > 140 ? element.offsetHeight : 300;
     } else {
         return height;
     }
 }
 
-function getWidth (element, width = 'auto') {
+function getWidth(element, width = 'auto') {
     if (width === 'auto') {
-        return element.width() > 90 ? element.width() - 50 : 300;
+        return element.offsetWidth > 90 ? element.offsetWidth : 300;
     } else {
         return width;
     }
 }
 
-export class ChartjsAdapter {
+export class DOMGraphChartjsAdapter {
 
     renderGraphToCanvas(canvas, graph) {
       let getChartData = function(graph) {
@@ -103,17 +104,27 @@ export class ChartjsAdapter {
         return chart;
     }
 
-    renderGraphTo(element, graph) {
-        element.prepend('<canvas width="'+getWidth(element, graph.width)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
-        var canvas = element.find('canvas:first').get(0);
-        var chart = this.renderGraphToCanvas(canvas, graph);
-        element.append(chart.generateLegend());
+    renderGraphTo(element, graph) {
+        element.innerHTML = '';
+        let canvas = document.createElement('CANVAS');
+        canvas.setAttribute('width', getWidth(element, graph.width));
+        canvas.setAttribute('height', getHeight(element, graph.height));
+        element.appendChild(canvas);
+        let chart = this.renderGraphToCanvas(canvas, graph);
+        let legend = document.createElement('DIV');
+        element.appendChild(legend);
+        legend.innerHTML = chart.generateLegend();
     }
 
-    renderSegmentGraphTo(element, graph) {
-        element.prepend('<canvas width="'+getWidth(element, graph.width)+'" height="'+getHeight(element, graph.height)+'"></canvas>');
-        var canvas = element.find('canvas:first').get(0);
-        var chart = this.renderSegmentGraphToCanvas(canvas, graph);
-        element.append(chart.generateLegend());
+    renderSegmentGraphTo(element, graph) {
+        element.innerHTML = '';
+        let canvas = document.createElement('CANVAS');
+        canvas.setAttribute('width', getWidth(element, graph.width));
+        canvas.setAttribute('height', getHeight(element, graph.height));
+        element.appendChild(canvas);
+        let chart = this.renderSegmentGraphToCanvas(canvas, graph);
+        let legend = document.createElement('DIV');
+        element.appendChild(legend);
+        legend.innerHTML = chart.generateLegend();
     }
 }

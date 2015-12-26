@@ -1,4 +1,4 @@
-import {TableCell} from '../../../src/result/table/tableCell';
+import {TableCell} from '../../../src/js/result/table/tableCell';
 
 describe('TableCell', function() {
     it('constructor', function() {

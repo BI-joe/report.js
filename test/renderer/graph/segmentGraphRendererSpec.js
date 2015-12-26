@@ -1,6 +1,6 @@
-import {SegmentGraph} from '../../../src/result/graph/segmentGraph';
-import {GridFactory} from '../../../src/data/gridFactory';
-import {SegmentGraphRenderer} from '../../../src/renderer/graph/segmentGraphRenderer';
+import {SegmentGraph} from '../../../src/js/result/graph/segmentGraph';
+import {GridFactory} from '../../../src/js/data/gridFactory';
+import {SegmentGraphRenderer} from '../../../src/js/renderer/graph/segmentGraphRenderer';
 
 describe('SegmentGraphRenderer', function() {
     it('render', function() {
