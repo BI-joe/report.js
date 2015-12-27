@@ -22,7 +22,7 @@ export class Table {
                 }
 
                 let tag = cell.options.header === undefined || !cell.options.header ? 'td' : 'th';
-                rowHtml += '<' + tag + (cellAttributes.length ? ' ' + cellAttributes.join(' ') : '') + '>' + cell.value + '</' + tag + '>';
+                rowHtml += '<' + tag + (cellAttributes.length ? ' ' + cellAttributes.join(' ') : '') + '>' + (cell.value !== null ? cell.value : '')  + '</' + tag + '>';
             });
 
             rowHtml = '<tr>' + rowHtml + '</tr>';

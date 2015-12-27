@@ -1,32 +1,30 @@
+var karma = require('karma');
+
 module.exports = function(config) {
     config.set({
         basePath: './',
-
-        // frameworks to use
-        frameworks: ['jasmine', 'requirejs', 'traceur'],
-
+        frameworks: ['browserify', 'jasmine'],
         preprocessors: {
-            'src/**/*.js': ['traceur'],
-            'test/**/*Spec.js': ['traceur']
+            'src/**/*.js': ['browserify'],
+            'test/**/*.js': ['browserify']
         },
-
         files: [
-            {pattern: 'src/**/*.js', included: false},
-            {pattern: 'test/**/*Spec.js', included: false},
-
-            'test/test-main.js'
+            'test/**/*Spec.js'
         ],
 
-        traceurPreprocessor: {
-            options: {
-                sourceMap: true,
-                modules: 'amd',
-                annotations: true,
-                types: true,
-                experimental: true
+        browserify: {
+            debug: true,
+            configure: function(bundle) {
+                bundle.once('prebundle', function() {
+                    bundle
+                        .add(require.resolve("babel-polyfill"))
+                        .transform('babelify', { presets: ['es2015'] });
+                });
             }
         },
-
-        browsers: ['Firefox']
+        browsers: ['PhantomJS'],
+        port: 9876,
+        colors: true,
+        logLevel: karma.LOG_INFO
     });
 };

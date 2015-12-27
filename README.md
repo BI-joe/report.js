@@ -6,37 +6,34 @@ Report.js
 
 Dependancies
 ------------
-Report.js depend on [Chart.js](http://chartjs.org) for graph rendering
+Report.js depend on [Chart.js](http://chartjs.org) for graph rendering.
+You need to add an ES6 polyfill (core-js or babel-pollyfill) to use this library.
 
 Usage
 -----
 
 ```javascript
-import {Renderer, DOMAdapter} from 'reportjs';
+import {Processor, DOMAdapter} from 'reportjs';
 
-const renderer = new Renderer();
+const processor = new Processor();
 const adapter = new DOMAdapter();
 const report = {
     data: {
-        dimensions: [{ id: 'Measures'}, { id: 'Year' }],
-        dimensionValues: [
-            [{ id: 'count', caption: 'My Count' }, { id: 'sum', caption: 'My Sum' }],
-            [{ id: '2013' }, { id: '2014' }]
-        ],
-        cells: [
-            {value: 10, dimensionValues: [0, 0]},
-            {value: 20, dimensionValues: [1, 1]},
-            {value: 15, dimensionValues: [0, 1]}
+        fields: [ 'Year', 'My Count', 'My Sum' ],
+        rows: [
+            ['2013', 10, 15],
+            ['2014', null, 20]
         ]
     },
     layout: {
         type: 'table',
-        rows: ['Measures'],
-        columns: ['Measures', 'Category']
+        rows: ['measures'],
+        columns: ['Year'],
+        measures: ['My Count', 'My Sum']
     }
 };
 
-const output = renderer.render(report);
+const output = processor.process(report);
 adapter.renderTo(document.getElementById('#mycontainer'), output);
 ```
 
@@ -52,7 +49,7 @@ Contribute
 Install the dependencies
 
 ```sh
-git clone https://github.com/youknowriad/report.js.git && cd report.js
+git clone https://github.com/BI-joe/report.js.git && cd report.js
 npm Install
 ```
 

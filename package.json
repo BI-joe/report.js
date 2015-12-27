@@ -8,10 +8,11 @@
   },
   "main": "dist/js/index.js",
   "scripts": {
-    "test": "npm run lint && karma start --single-run --browsers Firefox",
+    "test": "karma start --single-run",
     "lint": "eslint src/js",
+    "check": "npm run lint && npm run test",
     "build": "rimraf lib && babel --presets es2015 -d dist/js/ src/js/",
-    "prepublish": "npm run test && npm run build"
+    "prepublish": "npm run check && npm run build"
   },
   "author": "Riad Benguella <benguella@gmail.com>",
   "license": "MIT",
@@ -19,17 +20,18 @@
     "babel": "^6.3.26",
     "babel-cli": "^6.3.17",
     "babel-eslint": "^4.1.6",
+    "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
     "eslint": "^1.10.3",
-    "karma": "~0.12.24",
-    "karma-cli": "0.0.4",
-    "karma-firefox-launcher": "^0.1.3",
-    "karma-jasmine": "~0.2.2",
-    "karma-requirejs": "~0.2.2",
-    "karma-traceur-preprocessor": "^0.4.0",
-    "requirejs": "^2.1.11",
-    "rimraf": "^2.5.0",
-    "traceur": "0.0.78"
+    "karma": "^0.13.16",
+    "karma-browserify": "^4.4.2",
+    "karma-cli": "^0.1.2",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.2",
+    "phantomjs": "^1.9.19",
+    "rimraf": "^2.5.0"
   },
   "dependencies": {
     "chart.js": "^1.0.2"
