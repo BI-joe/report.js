@@ -1,5 +1,4 @@
 import {SegmentGraph} from '../../result/graph/segmentGraph';
-import {FIELD_MEASURES} from '../../constants';
 
 export class SegmentGraphProcessor {
 
