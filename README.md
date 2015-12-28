@@ -1,9 +1,6 @@
 Report.js
 =========
 
-[![Build Status](https://travis-ci.org/BI-joe/report.js.svg)](https://travis-ci.org/BI-joe/report.js)
-
-
 Dependancies
 ------------
 Report.js depend on [Chart.js](http://chartjs.org) for graph rendering.
