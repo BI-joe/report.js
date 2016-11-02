@@ -5,14 +5,26 @@ export class ResultSet {
     constructor(fields, rows) {
         this.fields = fields;
         this.rows = rows;
+
+        // Perf optimisations
+        this.indexedFields = this.fields.reduce((indexedFields, field, index) =>
+            Object.assign(
+                indexedFields, {
+                [field.id]: {
+                    index,
+                    field
+                }
+            }),
+            {}
+        );
     }
 
     getField(id) {
-        return this.fields.find(field => field.id === id);
+        return this.indexedFields[id] ? this.indexedFields[id].field : undefined;
     }
 
     getFieldIndex(field) {
-        return this.fields.findIndex(f => f.id === field.id);
+        return this.indexedFields[field.id] ? this.indexedFields[field.id].index : undefined;
     }
 
     getFieldValues(field) {
@@ -71,17 +83,12 @@ export class ResultSet {
 
     getFieldValue(measureField, fieldValues) {
         let row = this.rows.find(row => {
-            let found = true;
-            fieldValues.forEach((fieldValue, fieldId) => {
+            return Array.from(fieldValues).every(([fieldId, fieldValue]) => {
                 let field = this.getField(fieldId),
                     fieldIndex = this.getFieldIndex(field);
                 // I dont know why exactly I dont get the same instance of fieldValue in unit tests here
-                if (row[fieldIndex].value !== fieldValue.value) {
-                    found = false;
-                }
+                return row[fieldIndex].value === fieldValue.value;
             });
-
-            return found;
         });
 
         if (row) {
