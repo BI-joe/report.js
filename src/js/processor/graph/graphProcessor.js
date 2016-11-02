@@ -1,5 +1,4 @@
 import {Graph} from '../../result/graph/graph';
-import {Maps}  from '../../utils/maps';
 import {FIELD_MEASURES} from '../../constants';
 
 export class GraphProcessor {
@@ -24,7 +23,7 @@ export class GraphProcessor {
     }
 
     process(resultSet) {
-        let maps = new Maps();
+        const groupedRows = resultSet.groupBy(this.datasetsFields, this.labelsFields);
         let datasetsSets = resultSet.getFieldValuesSets(this.measureFields, this.datasetsFields);
         let labelsSets   = resultSet.getFieldValuesSets(this.measureFields, this.labelsFields);
 
@@ -35,17 +34,19 @@ export class GraphProcessor {
 
         let datasets = [];
         datasetsSets.forEach(datasetSet => {
-            let dataset = {
+            const dataset = {
                 label: this.getLabel(resultSet, this.datasetsFields, datasetSet.fieldValues, datasetSet.measure),
                 data: []
             };
+            const datasetKey = resultSet.getGroupKeyForFieldValues(datasetSet.fieldValues);
             datasets.push(dataset);
             labelsSets.forEach(labelSet => {
-                let measure = datasetSet.measure ? datasetSet.measure : labelSet.measure;
-                let fieldValues = maps.sum(datasetSet.fieldValues, labelSet.fieldValues);
-
-                let fieldValue = resultSet.getFieldValue(measure, fieldValues);
-                if (fieldValue) {
+                const measure = datasetSet.measure ? datasetSet.measure : labelSet.measure;
+                const measureIndex = resultSet.getFieldIndex(measure.id);
+                const labelKey = resultSet.getGroupKeyForFieldValues(labelSet.fieldValues);
+                const row = groupedRows[datasetKey] ? groupedRows[datasetKey][labelKey] : false;
+                if (row) {
+                    const fieldValue = row[measureIndex];
                     dataset.data.push(fieldValue.value);
                 } else {
                     dataset.data.push(null);

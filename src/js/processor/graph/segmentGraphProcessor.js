@@ -15,7 +15,7 @@ export class SegmentGraphProcessor {
                 resultSet.fields
                 .filter(field => this.measureFields.indexOf(field.id) === -1)
                 .reduce((previous, field) => {
-                    let fieldIndex = resultSet.getFieldIndex(field);
+                    let fieldIndex = resultSet.getFieldIndex(field.id);
                     return previous.concat([row[fieldIndex].value]);
                 }, [])
             ).join(' - ');
@@ -27,7 +27,7 @@ export class SegmentGraphProcessor {
         this.measureFields.forEach(measureFieldId => {
             let measure = resultSet.getField(measureFieldId);
             resultSet.rows.forEach(row => {
-                let fieldValue = row[resultSet.getFieldIndex(measure)];
+                let fieldValue = row[resultSet.getFieldIndex(measureFieldId)];
                 if (fieldValue.value !== null && fieldValue.value !== undefined) {
                     labels.push({
                         label: this.getLabel(resultSet, row, measure),

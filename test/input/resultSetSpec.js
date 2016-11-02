@@ -21,7 +21,7 @@ describe('ResultSet', function() {
         ;
 
         expect(resultSet.getField('d')).toEqual(new Field('d'));
-        expect(resultSet.getFieldIndex(field)).toEqual(0);
+        expect(resultSet.getFieldIndex('d')).toEqual(0);
     });
 
     it('getFieldValue', function() {

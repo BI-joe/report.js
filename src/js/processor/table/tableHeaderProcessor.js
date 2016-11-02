@@ -34,7 +34,7 @@ export class TableHeaderProcessor {
                 if (currentFieldId === FIELD_MEASURES) {
                     this.measureFields.forEach(measureFieldId => {
                         let measureField = resultSet.getField(measureFieldId);
-                        let measureFieldIndex = resultSet.getFieldIndex(measureField);
+                        let measureFieldIndex = resultSet.getFieldIndex(measureFieldId);
                         let subRows = currentRows.filter(row => row[measureFieldIndex].value !== null && row[measureFieldIndex].value !== undefined);
                         if (subRows.length) {
                             let childCellsCount = getHeaderRows(outputRows, remainingFields, subRows);
@@ -50,7 +50,7 @@ export class TableHeaderProcessor {
                 }
 
                 let currentField           = resultSet.getField(currentFieldId),
-                    currentFieldIndex      = resultSet.getFieldIndex(currentField);
+                    currentFieldIndex      = resultSet.getFieldIndex(currentFieldId);
                 resultSet.getFieldValues(currentField).forEach(fieldValue => {
                     let subRows = currentRows.filter(row => row[currentFieldIndex] === fieldValue);
                     if (subRows.length) {
