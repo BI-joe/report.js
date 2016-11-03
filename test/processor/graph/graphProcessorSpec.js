@@ -16,7 +16,10 @@ describe('GraphProcessor', function() {
             resultSet = factory.buildFromJson(data),
             processor = new GraphProcessor(['m1', 'm2'], ['measures'], ['d']);
 
-        let expectedGraph = new Graph('line', ['d11', 'd12'], [{ label: 'm1', data: [10, null] }, { label: 'm2', data: [8, 5] }]);
+        let expectedGraph = new Graph('line', ['d11', 'd12'], [
+            { label: 'm1', data: [10, null], options: {} },
+            { label: 'm2', data: [8, 5], options: {} }
+        ]);
 
         expect(processor.process(resultSet)).toEqual(expectedGraph);
     });

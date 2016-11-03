@@ -31,22 +31,50 @@ function generateColors(colorScheme, index) {
 }
 
 export class DOMGraphChartjsAdapter {
-
     renderGraphToCanvas(canvas, graph) {
         const getChartData = function(graph) {
             const colorScheme = defaultScheme;
+            const datasets = graph.datasets.map((dataset, index) => {
+                const data = graph.getOption('linear')
+                    ? dataset.data
+                        .map((value, index) => ({
+                            x: graph.labels[index],
+                            y: value
+                        }))
+                    : dataset.data;
+
+                return Object.assign({
+                    label: dataset.label,
+                    pointRadius: dataset.options.pointRadius,
+                    fill: 'fill' in dataset.options ? dataset.options.fill : true,
+                    data
+                }, generateColors(colorScheme, index));
+            });
+
             return {
                 labels: graph.labels,
-                datasets: graph.datasets.map((dataset, index) => {
-                    return Object.assign(generateColors(colorScheme, index), dataset);
-                })
+                datasets
             };
         };
+
+        const spanGaps = graph.getOption('spanGaps');
+        const scaleOptions = graph.getOption('linear')
+            ? {
+                scales: {
+                    xAxes: [{
+                        type: 'linear',
+                        position: 'bottom'
+                    }]
+                }
+            }
+            : {};
+        const options = Object.assign({ spanGaps }, scaleOptions);
 
         const context = canvas.getContext('2d'),
             chart = new Chart(context, {
                 type: graph.graphType,
-                data: getChartData(graph)
+                data: getChartData(graph),
+                options
             });
 
         return chart;

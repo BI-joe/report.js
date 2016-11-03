@@ -3,23 +3,32 @@ import {FIELD_MEASURES} from '../../constants';
 
 export class GraphProcessor {
 
-    constructor(measureFields, datasetsFields, labelsFields, graphType = 'line', height = 'auto', width = 'auto') {
-        this.measureFields  = measureFields;
+    constructor(measureFields, datasetsFields, labelsFields, graphType = 'line', height = 'auto', width = 'auto', options = {}) {
+        this.measureFields  = measureFields.map(measure => typeof measure === 'object' ? measure.name : measure);
         this.datasetsFields = datasetsFields;
         this.labelsFields   = labelsFields;
         this.graphType      = graphType;
         this.height         = height;
         this.width          = width;
+        this.options        = options;
+        this.measureOptions = measureFields.reduce((config, measure) => {
+            const measureName = typeof measure === 'object' ? measure.name : measure;
+            return Object.assign({
+                [measureName]: typeof measure === 'object' ? measure : {}
+            }, config)
+        }, {});
     }
 
     getLabel(resultSet, fields, fieldValues, measure) {
-        return fields.reduce((previous, fieldId) => {
+        const parts = fields.reduce((previous, fieldId) => {
             if (fieldId === FIELD_MEASURES) {
                 return previous.concat([measure.caption]);
             } else {
                 return previous.concat([fieldValues.get(fieldId).value]);
             }
-        }, []).join(' - ');
+        }, []);
+
+        return parts.length === 1 ? parts[0] : parts.join(' - ');
     }
 
     process(resultSet) {
@@ -36,8 +45,12 @@ export class GraphProcessor {
         datasetsSets.forEach(datasetSet => {
             const dataset = {
                 label: this.getLabel(resultSet, this.datasetsFields, datasetSet.fieldValues, datasetSet.measure),
-                data: []
+                data: [],
+                options: {}
             };
+            if (datasetSet.measure) {
+                dataset.options = this.measureOptions[datasetSet.measure.id];
+            }
             const datasetKey = resultSet.getGroupKeyForFieldValues(datasetSet.fieldValues);
             datasets.push(dataset);
             labelsSets.forEach(labelSet => {
@@ -54,6 +67,6 @@ export class GraphProcessor {
             });
         });
 
-        return new Graph(this.graphType, labels, datasets, this.height, this.width);
+        return new Graph(this.graphType, labels, datasets, this.height, this.width, this.options);
     }
 }
