@@ -1,5 +1,5 @@
 import Chart from 'chart.js';
-import {Colors} from '../utils/colors';
+import { hexToRgb, rgbToString, defaultScheme } from '../utils/colors';
 
 function getHeight(element, height = 'auto') {
     if (height === 'auto') {
@@ -17,89 +17,61 @@ function getWidth(element, width = 'auto') {
     }
 }
 
+function generateColors(colorScheme, index) {
+    let colorIndex = index % colorScheme.length,
+        rgbColor = hexToRgb(colorScheme[colorIndex]);
+
+    return {
+        backgroundColor: rgbToString(rgbColor, 0.2),
+        borderColor: rgbToString(rgbColor, 1),
+        pointBorderColor: rgbToString(rgbColor, 1),
+        pointBackgroundColor: rgbToString(rgbColor, 1),
+        pointHoverBackgroundColor: rgbToString(rgbColor, 0.1)
+    }
+}
+
 export class DOMGraphChartjsAdapter {
 
     renderGraphToCanvas(canvas, graph) {
-      let getChartData = function(graph) {
-                let index = 0,
-                    colors = new Colors(),
-                    colorScheme = colors.defaultScheme();
-                return {
-                    labels: graph.labels,
-                    datasets: graph.datasets.map(dataset => {
-                        let colorIndex = index % colorScheme.length,
-                            rgbColor = colors.hexToRgb(colorScheme[colorIndex]);
-                        dataset.fillColor = colors.rgbToString(rgbColor, 0.2);
-                        dataset.strokeColor = colors.rgbToString(rgbColor, 1);
-                        dataset.pointColor = colors.rgbToString(rgbColor, 1);
-                        dataset.pointStrokeColor = colors.rgbToString(rgbColor, 0.1);
-                        dataset.pointHighlightFill = colors.rgbToString(rgbColor, 0.1);
-                        dataset.pointHighlightStroke = colors.rgbToString(rgbColor, 1);
-                        index++;
-
-                        return dataset;
-                    })
-                };
+        const getChartData = function(graph) {
+            const colorScheme = defaultScheme;
+            return {
+                labels: graph.labels,
+                datasets: graph.datasets.map((dataset, index) => {
+                    return Object.assign(generateColors(colorScheme, index), dataset);
+                })
             };
+        };
 
-        let context = canvas.getContext('2d'),
-            chart = new Chart(context),
-            chartOptions = {
-              legendTemplate : '<ul class="chartjs-legend <%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span class="pill" style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
-            };
-
-        switch (graph.graphType) {
-            case 'line':
-                chart = chart.Line(getChartData(graph), chartOptions);
-                break;
-            case 'bar':
-                chart = chart.Bar(getChartData(graph), chartOptions);
-                break;
-            case 'radar':
-                chart = chart.Radar(getChartData(graph), chartOptions);
-                break;
-            default:
-                throw Error('Unknown graph type "' + graph.graphType + '"');
-        }
+        const context = canvas.getContext('2d'),
+            chart = new Chart(context, {
+                type: graph.graphType,
+                data: getChartData(graph)
+            });
 
         return chart;
     }
 
     renderSegmentGraphToCanvas(canvas, graph) {
-      let getChartData = function(graph) {
-                let index = 0,
-                    colors = new Colors(),
-                    colorScheme = colors.defaultScheme();
-                return graph.labels.map(label => {
-                    let colorIndex = index % colorScheme.length,
-                        rgbColor = colors.hexToRgb(colorScheme[colorIndex]);
-                    label.color = colors.rgbToString(rgbColor, 0.8);
-                    label.highlight = colors.rgbToString(rgbColor, 1);
-                    index++;
-
-                    return label;
-                });
+        let getChartData = function(graph) {
+            const colorScheme = defaultScheme;
+            const colors = graph.labels.map((label, index) => generateColors(colorScheme, index));
+            return {
+                datasets: [{
+                    data: graph.labels.map(label => label.value),
+                    backgroundColor: colors.map(color => color.borderColor),
+                    hoverBorderColor: colors.map(color => color.borderColor),
+                    hoverBackgroundColor: colors.map(color => color.backgroundColor)
+                }],
+                labels: graph.labels.map(label => label.label)
             };
+        };
 
-        let context = canvas.getContext('2d'),
-            chart = new Chart(context),
-            chartOptions = {
-              legendTemplate : '<ul class="chartjs-legend <%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span class="pill" style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
-            };
-
-        switch (graph.graphType) {
-            case 'pie':
-                chart = chart.Pie(getChartData(graph), chartOptions);
-                break;
-            case 'polarArea':
-                chart = chart.PolarArea(getChartData(graph), chartOptions);
-                break;
-            case 'doughnut':
-                chart = chart.Doughnut(getChartData(graph), chartOptions);
-                break;
-            default:
-                throw Error('Unknown segment graph type "' + graph.graphType + '"');
-        }
+        const context = canvas.getContext('2d'),
+            chart = new Chart(context, {
+                type: graph.graphType,
+                data: getChartData(graph)
+            });
 
         return chart;
     }
@@ -110,10 +82,7 @@ export class DOMGraphChartjsAdapter {
         canvas.setAttribute('width', getWidth(element, graph.width));
         canvas.setAttribute('height', getHeight(element, graph.height));
         element.appendChild(canvas);
-        let chart = this.renderGraphToCanvas(canvas, graph);
-        let legend = document.createElement('DIV');
-        element.appendChild(legend);
-        legend.innerHTML = chart.generateLegend();
+        this.renderGraphToCanvas(canvas, graph);
     }
 
     renderSegmentGraphTo(element, graph) {
@@ -122,9 +91,6 @@ export class DOMGraphChartjsAdapter {
         canvas.setAttribute('width', getWidth(element, graph.width));
         canvas.setAttribute('height', getHeight(element, graph.height));
         element.appendChild(canvas);
-        let chart = this.renderSegmentGraphToCanvas(canvas, graph);
-        let legend = document.createElement('DIV');
-        element.appendChild(legend);
-        legend.innerHTML = chart.generateLegend();
+        this.renderSegmentGraphToCanvas(canvas, graph);
     }
 }

@@ -1,6 +1,6 @@
 {
   "name": "reportjs",
-  "version": "3.0.5",
+  "version": "3.1.0",
   "description": "Report Library",
   "repository": {
     "type": "git",
@@ -35,6 +35,6 @@
     "rimraf": "^2.5.0"
   },
   "dependencies": {
-    "chart.js": "^1.0.2"
+    "chart.js": "^2.3.0"
   }
 }
