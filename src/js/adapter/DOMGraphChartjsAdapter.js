@@ -17,10 +17,13 @@ function getWidth(element, width = 'auto') {
     }
 }
 
-function generateColors(colorScheme, index) {
-    let colorIndex = index % colorScheme.length,
-        rgbColor = hexToRgb(colorScheme[colorIndex]);
+function generateRandomColors(colorScheme, index) {
+    let colorIndex = index % colorScheme.length;
+    return generateColors(colorScheme[colorIndex]);
+}
 
+function generateColors(color) {
+    const rgbColor = hexToRgb(color);
     return {
         backgroundColor: rgbToString(rgbColor, 0.2),
         borderColor: rgbToString(rgbColor, 1),
@@ -42,13 +45,16 @@ export class DOMGraphChartjsAdapter {
                             y: value
                         }))
                     : dataset.data;
+                const colors = dataset.options.color
+                    ? generateColors(dataset.options.color)
+                    : generateRandomColors(colorScheme, index);
 
                 return Object.assign({
                     label: dataset.label,
                     pointRadius: dataset.options.pointRadius,
                     fill: 'fill' in dataset.options ? dataset.options.fill : true,
                     data
-                }, generateColors(colorScheme, index));
+                }, colors);
             });
 
             return {
@@ -83,7 +89,8 @@ export class DOMGraphChartjsAdapter {
     renderSegmentGraphToCanvas(canvas, graph) {
         let getChartData = function(graph) {
             const colorScheme = defaultScheme;
-            const colors = graph.labels.map((label, index) => generateColors(colorScheme, index));
+            const colors = graph.labels.map((label, index) => generateRandomColors(colorScheme, index));
+
             return {
                 datasets: [{
                     data: graph.labels.map(label => label.value),
